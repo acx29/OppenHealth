@@ -3,7 +3,7 @@ body {
     font-family: "inter", sans-serif;
     font-weight: 200;
     background: rgb(82, 78, 78); /* I'm adding this background as gray in case users cant load the image */
-    background-image: url("./urban-vintage-78A265wPiO4-unsplash.jpg");
+    background-image: url("./images/urban-vintage-78A265wPiO4-unsplash.jpg");
     background-repeat: no-repeat; /* This is crucial so that it doesn't focus on some rando ahh part of the image */
     background-size: cover;
     
