@@ -1,16 +1,52 @@
-
 body {
     font-family: "inter", sans-serif;
     font-weight: 200;
-    background: rgb(82, 78, 78); /* I'm adding this background as gray in case users cant load the image */
+    background: rgb(82, 78, 78); /* I'm adding this background as gray in case users cant load the image. However note that it is putting gray then the image is OVERRIDING IT, so maybe look into that. */
     background-image: url("./images/urban-vintage-78A265wPiO4-unsplash.jpg");
     background-repeat: no-repeat; /* This is crucial so that it doesn't focus on some rando ahh part of the image */
     background-size: cover;
     
 }
 
-img{
+div {
+    flex: 1;
+}
+
+.flex-container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.login{
+    display: flex;
+    background: white;
+    height: 500px;
+    width: 800px;
+    border-radius: 100px;
+}
+
+.sign {
+    font-family: "inter", sans-serif;
+    font-weight: 200;
+    font-size: 50px;
+    align-items: baseline;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+img {
     height: auto;
     width: 1000px;
+}
+
+button {
+    background-color: rgb(31, 56, 148);
+    color: white;
+    font-family: "inter", sans-serif;
+    font-weight: 100;
+    border-radius: 20px;
 }
 
