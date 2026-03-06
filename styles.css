@@ -4,6 +4,18 @@ a {
 
 }
 
+input {
+    border: none;
+    outline: none;
+    width: 200px;
+    border-bottom: 2px solid gray;
+    background: gray;
+    opacity: 0.5;
+    color: white;
+    font-family: "inter", sans-serif;
+    font-weight: 200;
+}
+
 a:visited {
     color: #f896f6;
     text-decoration: underline;
@@ -17,10 +29,14 @@ body {
 }
 
 .home-page{
+    display: flex;
+    flex-direction: column;
     background: rgb(82, 78, 78); /* I'm adding this background as gray in case users cant load the image. However note that it is putting gray then the image is OVERRIDING IT, so maybe look into that. */
     background-image: url("./images/urban-vintage-78A265wPiO4-unsplash.jpg");
     background-repeat: no-repeat; /* This is crucial so that it doesn't focus on some rando ahh part of the image */
     background-size: cover;
+    align-items: center;
+
 }
 
 .flex-container {
@@ -37,6 +53,8 @@ body {
     display: flex;
     flex-direction: column;
     background: rgba(255,255,255,0.4);
+    padding: 50px;
+    margin: 100px;
     height: 500px;
     width: 500px;
     border-radius: 100px;
@@ -44,6 +62,7 @@ body {
 
 .sign {
     font-family: "inter", sans-serif;
+    color: white;
     font-weight: 200;
     font-size: 40px;
     align-items: baseline;
@@ -57,11 +76,15 @@ img {
 }
 
 button {
-    background-color: rgb(101, 193, 255);
+    background-color: rgb(101, 193, 255, 0.6);
     color: white;
+    border: none;
     font-family: "inter", sans-serif;
-    font-weight: 100;
+    font-weight: 300;
     border-radius: 20px;
-    opacity: 0.6
 }
 
+.dashboard {
+    background-color: rgb(22, 26, 41);
+    color: white;
+}
