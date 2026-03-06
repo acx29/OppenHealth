@@ -1,15 +1,26 @@
+a {
+    color: #f896f6;
+    text-decoration: underline;
+
+}
+
+a:visited {
+    color: #f896f6;
+    text-decoration: underline;
+
+}
+
 body {
+    margin: 0;
     font-family: "inter", sans-serif;
     font-weight: 200;
+}
+
+.home-page{
     background: rgb(82, 78, 78); /* I'm adding this background as gray in case users cant load the image. However note that it is putting gray then the image is OVERRIDING IT, so maybe look into that. */
     background-image: url("./images/urban-vintage-78A265wPiO4-unsplash.jpg");
     background-repeat: no-repeat; /* This is crucial so that it doesn't focus on some rando ahh part of the image */
     background-size: cover;
-    
-}
-
-div {
-    flex: 1;
 }
 
 .flex-container {
@@ -17,21 +28,24 @@ div {
     width: 100vw;
     height: 100vh;
     align-items: center;
-    justify-content: center;
+    background-image: url("./images/oscar-aguilar-elias-B5p9If-Xic8-unsplash.jpg");
+    background-repeat: no-repeat; /* This is crucial so that it doesn't focus on some rando ahh part of the image */
+    background-size: cover;
 }
 
 .login{
     display: flex;
-    background: white;
+    flex-direction: column;
+    background: rgba(255,255,255,0.4);
     height: 500px;
-    width: 800px;
+    width: 500px;
     border-radius: 100px;
 }
 
 .sign {
     font-family: "inter", sans-serif;
     font-weight: 200;
-    font-size: 50px;
+    font-size: 40px;
     align-items: baseline;
     padding: 40px;
     box-sizing: border-box;
@@ -43,10 +57,11 @@ img {
 }
 
 button {
-    background-color: rgb(31, 56, 148);
+    background-color: rgb(101, 193, 255);
     color: white;
     font-family: "inter", sans-serif;
     font-weight: 100;
     border-radius: 20px;
+    opacity: 0.6
 }
 
