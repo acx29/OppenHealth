@@ -44,12 +44,12 @@ body {
     width: 100vw;
     height: 100vh;
     align-items: center;
-    background-image: url("./images/oscar-aguilar-elias-B5p9If-Xic8-unsplash.jpg");
+    background-image: url("../images/oscar-aguilar-elias-B5p9If-Xic8-unsplash.jpg");
     background-repeat: no-repeat; /* This is crucial so that it doesn't focus on some rando ahh part of the image */
     background-size: cover;
 }
 
-.login{
+.login {
     display: flex;
     flex-direction: column;
     background: rgba(255,255,255,0.4);
