@@ -1,11 +1,8 @@
+
 document.getElementById("mySubmit").onclick = async function(){ // sign up func
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
     let repeatPassword = document.getElementById("repeat-password").value;
-
-    console.log(username);
-    console.log(password);
-    console.log(repeatPassword); 
 
     if(password!==repeatPassword){
         alert("Passwords do not match.");
@@ -25,14 +22,16 @@ document.getElementById("mySubmit").onclick = async function(){ // sign up func
     });
 
     const data = await res.json();
-    console.log(data);
+    if(!res.ok){
+        alert("Sign-up failed. Make sure you are using a complicated password and make sure passwords match.");
+        console.log(data); // im assuming on inspect element u will be able to see data (ex. error 404)
+        return;
+    }
 
+    console.log("Signup successful: ", data);
+    
+    // redirects user:
+    window.location.href = "/dashboard";
 }
 
-async function signUp(username, password){
-    const {data, error} = await supabase.auth.signUp({ // hashmap (2 key-value pairs), hence the { } notation
-        email: username, 
-        password: password
-    })
-}
 
