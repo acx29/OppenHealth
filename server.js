@@ -1,17 +1,27 @@
 import express from "express";
 import { createClient } from '@supabase/supabase-js'; // ok we added the url and key from my supabase project below 
 import dotenv from 'dotenv';
+import path from 'path'; //
+import { fileURLToPath } from "url"; // 
 
 dotenv.config(); // finds the env (library) file, and loads variables from the file (class)
 
 const app = express();
 app.use(express.json());
-app.use(express.static("public")); // bro we changed src -> public
+app.use(express.static("public")); // bro we changed the folder name of "src" -> "public"
+
+const __filename = fileURLToPath(import.meta.url); // 
+const __dirname = path.dirname(__filename); // 
 
 const supabase = createClient( // this is the supabase object so we can call the auth bs
-    process.env.SUPABASE_PROJECT_URL, 
-    process.env.SUPABASE_API_KEY
+    process.env.SUPABASE_PROJECT_URL, // 
+    process.env.SUPABASE_API_KEY //
 );
+
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "index.html"));
+
+});
 
 // 'signup' has NOTHING to do with signUp.html. This is just the backend version of the method u were doing earlier
 app.post("/api/signup", async (req, res) => {
@@ -30,6 +40,4 @@ app.post("/api/signup", async (req, res) => {
 
 });
 
-app.listen(3000, () => { // acc lets you run the server
-    console.log("yeah server running");
-})
+export default app;
