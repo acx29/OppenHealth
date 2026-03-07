@@ -22,9 +22,8 @@ document.getElementById("mySubmit").onclick = async function(){ // sign up func
     });
 
     const data = await res.json();
-    if(!res.ok){
-        alert("Sign-up failed. Make sure you are using a complicated password and make sure passwords match.");
-        console.log(data); // im assuming on inspect element u will be able to see data (ex. error 404)
+      if (!res.ok) {
+        alert(data.message || data.error_description || JSON.stringify(data));
         return;
     }
 
