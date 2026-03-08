@@ -30,7 +30,8 @@ document.getElementById("mySubmit").onclick = async function(){ // sign up func
     console.log("Signup successful: ", data);
     
     // redirects user:
-    window.location.href = "/dashboard";
+    alert("Signup successful! Please check your email to confirm your account before logging in.");
+    window.location.href = "/signIn";
 }
 
 
