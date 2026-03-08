@@ -40,7 +40,7 @@ app.post("/api/signup", async (req, res) => {
 
 });
 
-app.post("/api/login", async (req, res) => {
+app.post("/api/login", async (req, res) => { // resend email confirmation if necesary from the backend
     const { username, password } = req.body;
 
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -54,6 +54,21 @@ app.post("/api/login", async (req, res) => {
 
     res.json(data); // else we are returning the tause (accepted) data
 
+});
+
+app.post("/api/resend-confirmation", async (req, res) => {
+    const { email } = req.body; // grabbing the email that we want the backend to resend the confirmation to
+    
+    const { data, error} = await supabase.auth.resend({
+        type: "signup",
+        email: email
+    }); // attempting to run the func and then seeing if theres an error not
+
+    if(error) {
+        return res.status(400).json(error); // status: telling the BROWSER (remember this is in server.js), and json(error) is the key : value pair of what error
+    }
+
+    res.json({ message: "confirmation email sent" });
 });
 
 export default app;
