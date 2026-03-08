@@ -40,4 +40,20 @@ app.post("/api/signup", async (req, res) => {
 
 });
 
+app.post("/api/login", async (req, res) => {
+    const { username, password } = req.body;
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+        email: username,
+        password: password
+    });
+
+    if(error){
+        return res.status(400).json(error); // we are returning error message in res (response)
+    }
+
+    res.json(data); // else we are returning the tause (accepted) data
+
+});
+
 export default app;

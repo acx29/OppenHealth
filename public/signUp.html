@@ -1,25 +1,33 @@
 <!DOCTYPE html>
-
 <html>
-    <head>
-    <meta charset="UTF-8">
-    <link rel = "stylesheet" href = "styles.css">
-    </head>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="styles.css">
+</head>
 
-    <div class="flex-container">
-        <div class="login">
-            <div class="sign">Become Oppenheimer.</div>
-            <label>Username:</label>
-            <input id="username">
-            <labe >Password:</label> <br>
-            <input type="password" id="password"> <br>
-            <label>Repeat Password:</label> <br>
-            <input type="password" id="repeat-password">
-            <br><br>
-            <button id="mySubmit">Submit</button>
-        </div>
+<body>
+
+<!--THIS USES index.js WHICH SHOULD BE NAMED signUp.js. THIS IS NOT TO BE CONFUSED WITH signIn.js-->
+
+<div class="flex-container">
+    <div class="login">
+        <div class="sign">Become Oppenheimer.</div>
+
+        <label>Username:</label>
+        <input id="username">
+
+        <label>Password:</label>
+        <input type="password" id="password">
+
+        <label>Repeat Password:</label>
+        <input type="password" id="repeat-password"> <br>
+
+        <button id="mySubmit">Submit</button>
+        <p style="color: white">Already have an account? <a href="signIn.html">Sign in</a>
     </div>
+</div>
 
-    <script type="module" src ="index.js"></script>
+<script type="module" src="index.js"></script>
 
+</body>
 </html>
