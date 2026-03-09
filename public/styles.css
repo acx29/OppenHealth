@@ -93,13 +93,13 @@ button {
 
 .header-tab{
     display: flex;
-    border: 0px;
     font-family: "inter", sans-serif;
     font-weight: 300;
     background-color: rgba(22, 26, 41);
 }
 
 h1{
+    margin: 20px;
     font-family: "inter", sans-serif;
     font-weight: 300;
 }
