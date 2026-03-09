@@ -90,3 +90,16 @@ button {
     background-image: url('./images/aphexTwin.jpg');
     color: white;
 }
+
+.header-tab{
+    display: flex;
+    border: 0px;
+    font-family: "inter", sans-serif;
+    font-weight: 300;
+    background-color: rgba(22, 26, 41);
+}
+
+h1{
+    font-family: "inter", sans-serif;
+    font-weight: 300;
+}
