@@ -1,6 +1,6 @@
 
 document.getElementById("mySubmit").onclick = async function(){ // sign up func
-    let username = document.getElementById("username").value;
+    let email = document.getElementById("email").value;
     let password = document.getElementById("password").value;
     let repeatPassword = document.getElementById("repeat-password").value;
 
@@ -16,7 +16,7 @@ document.getElementById("mySubmit").onclick = async function(){ // sign up func
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            username, 
+            email, 
             password
         })
     });

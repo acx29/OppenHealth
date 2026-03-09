@@ -25,10 +25,10 @@ app.get("/", (req, res) => {
 
 // 'signup' has NOTHING to do with signUp.html. This is just the backend version of the method u were doing earlier
 app.post("/api/signup", async (req, res) => {
-    const { username, password } = req.body; // assigning username, password variables to whatever is in req.body
+    const { email, password } = req.body; // assigning email, password variables to whatever is in req.body
     
     const { data, error } = await supabase.auth.signUp({
-        email: username, 
+        email: email, 
         password: password
     });
 
@@ -41,10 +41,10 @@ app.post("/api/signup", async (req, res) => {
 });
 
 app.post("/api/login", async (req, res) => { // resend email confirmation if necesary from the backend
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
     const { data, error } = await supabase.auth.signInWithPassword({
-        email: username,
+        email: email,
         password: password
     });
 
