@@ -88,6 +88,7 @@ a, button {
 
 .dashboard {
     background-color: rgb(22, 26, 41);
+    background-image: url('./images/aphexTwin.jpg');
     color: white;
 }
 
@@ -95,7 +96,7 @@ a, button {
     display: flex;
     font-family: "inter", sans-serif;
     font-weight: 300;
-    background-color: rgb(38, 44, 69);
+    background-color: rgba(22, 26, 41);
     border-radius: 20px;
 }
 
