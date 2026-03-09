@@ -76,7 +76,7 @@ img {
     width: 1000px;
 }
 
-button {
+a, button {
     cursor: pointer;
     background-color: rgb(101, 193, 255, 0.6);
     color: white;
