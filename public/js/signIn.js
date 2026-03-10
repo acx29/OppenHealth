@@ -23,7 +23,7 @@ document.getElementById("mySubmit").onclick = async function () {
     }
 
     console.log("Login succesful!", data);
-    window.location.href = "./dashboard";
+    window.location.href = "/dashboard.html"; // this is how we redirect to the dashboard after logging in
 
 }
 
