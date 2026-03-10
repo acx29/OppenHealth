@@ -23,7 +23,7 @@ document.getElementById("mySubmit").onclick = async function () {
     }
 
     console.log("Login succesful!", data);
-    window.location.href = "/dashboard";
+    window.location.href = "./dashboard";
 
 }
 
