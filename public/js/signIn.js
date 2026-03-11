@@ -4,7 +4,7 @@ document.getElementById("mySubmit").onclick = async function () {
     let email = document.getElementById("username").value;
     let password = document.getElementById("password").value;
 
-    const res = await fetch("/api/login", {
+    const res = await fetch("/api/login", { // /api is kind of confusing here but basically its looking for authRoutes.js im p sure
         method: "POST", // REST CRUD API thingy
         headers: {
             "Content-Type" : "application/json" 

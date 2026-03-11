@@ -28,7 +28,7 @@ router.post("/signup", async (req, res) => {
 
 });
 
-router.post("/login", async (req, res) => { // resend email confirmation if necesary from the backend
+router.post("/login", async (req, res) => { 
     const { email, password } = req.body;
 
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -50,13 +50,13 @@ router.post("/login", async (req, res) => { // resend email confirmation if nece
         httpOnly: true, // can only be accessed via HTTP request, frontend cannot access the token
         secure: process.env.NODE_ENV === "production", // send cookie over HTTPS only in production
         sameSite: "lax",
-        maxAge: 60 * 60 * 1000 
+        maxAge: 60 * 60 * 1000 // user session lasts for 1 hour max
     })
 
     res.json({message: "Logged in (cookie returned) succesfully"});
 });
 
-router.post("/resend-confirmation", async (req, res) => {
+router.post("/resend-confirmation", async (req, res) => { // resend email confirmation if necesary from the backend
     const { email } = req.body; // grabbing the email that we want the backend to resend the confirmation to
     
     const { data, error} = await supabase.auth.resend({
