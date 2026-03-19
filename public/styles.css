@@ -104,3 +104,16 @@ h1{
     font-family: "inter", sans-serif;
     font-weight: 300;
 }
+
+.header-tab .logout {
+    margin: 30px;
+    cursor: pointer;
+
+    padding: 8px 14px;
+
+    border-radius: 8px;
+
+    background: rgba(255,255,255,0.1);
+
+    transition: 0.2s;
+}
