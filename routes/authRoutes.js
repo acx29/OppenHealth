@@ -50,7 +50,8 @@ router.post("/login", async (req, res) => {
         httpOnly: true, // can only be accessed via HTTP request, frontend cannot access the token
         secure: process.env.NODE_ENV === "production", // send cookie over HTTPS only in production
         sameSite: "lax",
-        maxAge: 60 * 60 * 1000 // user session lasts for 1 hour max
+        maxAge: 60 * 60 * 1000, // user session lasts for 1 hour max
+        path: "/"
     })
 
     res.json({message: "Logged in (cookie returned) succesfully"});
@@ -71,4 +72,17 @@ router.post("/resend-confirmation", async (req, res) => { // resend email confir
     res.json({ message: "confirmation email sent" });
 });
 
+router.post("/logout", async (req, res) => {
+    res.clearCookie("access_token", {
+        httpOnly: true, // extra secure, only server can read cookie
+        secure: process.env.NODE_ENV === "production", // not sure what these two lines do
+        sameSite: "lax", // how strict cross site cookie sending
+        path: "/" // overall path
+    });
+
+    res.json({message: "User logged out."});
+
+})
+
 export default router;
+
