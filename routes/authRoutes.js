@@ -8,7 +8,7 @@ const router = express.Router();
 
 const supabase = createClient( // this is the supabase object so we can call the auth bs
     process.env.SUPABASE_PROJECT_URL, // grab these variables from the .env file
-    process.env.SUPABASE_API_KEY //
+    process.env.SUPABASE_SERVICE_ROLE_KEY //
 );
 
 // 'signup' has NOTHING to do with signUp.html. This is just the backend version of the method u were doing earlier
