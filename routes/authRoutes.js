@@ -19,13 +19,33 @@ router.post("/signup", async (req, res) => {
         email: email, 
         password: password
     });
-
-    if(error){
-        return res.status(400).json(error); // yeah in case this bs doesnt work
+ 
+    if (error) {
+        return res.status(400).json(error);
     }
 
-    res.json(data); // if u got into tause
+    const userId = data.user?.id; // get id
 
+    if (!userId) {
+        return res.status(400).json({ message: "User was not created properly." });
+    }
+
+    const { error: profileError } = await supabase
+        .from("user_profiles")
+        .insert([
+            {
+                id: userId, // setting null because it hasnt prompted user yet
+                name: null,
+                username: null,
+                setup_complete: false
+            }
+        ]);
+
+    if (profileError) {
+        return res.status(400).json(profileError);
+    }
+
+    res.json(data);
 });
 
 router.post("/login", async (req, res) => { 

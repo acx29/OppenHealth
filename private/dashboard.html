@@ -4,13 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel = "stylesheet" href = "styles.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body class="dashboard">
+    
     <div class="header-tab">
         <h1>Welcome back</h1>
         <div class="logout" onclick="logoutUser()">
             Log out
+        </div>
+    </div>
+
+    <div id="setupModal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Complete your profile</h2>
+
+            <input id="nameInput" type="text" placeholder="Full name">
+            <input id="usernameInput" type="text" placeholder="Username">
+
+            <button id="setupSubmit">Save</button>
+            <p id="setupError"></p>
         </div>
     </div>
 
