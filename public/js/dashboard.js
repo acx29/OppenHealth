@@ -20,6 +20,11 @@ async function checkSetup() {
         return;
     }
 
+    const nameEl = document.getElementById("userName");
+    if (nameEl && profile.name) {
+        nameEl.textContent = profile.name;
+    }
+
     if (!profile.setup_complete) { // the popup appears
         document.getElementById("setupModal").classList.remove("hidden");
     }
