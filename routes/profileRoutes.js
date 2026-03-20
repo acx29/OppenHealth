@@ -9,7 +9,7 @@ const router = express.Router();
 
 const supabase = createClient(
     process.env.SUPABASE_PROJECT_URL,
-    process.env.SUPABASE_API_KEY
+    process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
 router.get("/profile", requireAuth, async (req, res) => {
