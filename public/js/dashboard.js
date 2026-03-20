@@ -25,6 +25,11 @@ async function checkSetup() {
         nameEl.textContent = profile.name;
     }
 
+    const header = document.querySelector(".header-tab");
+    if (header) {
+        header.classList.remove("header-hidden");
+    }
+
     if (!profile.setup_complete) { // the popup appears
         document.getElementById("setupModal").classList.remove("hidden");
     }

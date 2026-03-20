@@ -96,6 +96,13 @@ button {
     font-weight: 300;
     background-color: rgb(48, 58, 62);
     border-radius: 20px;
+
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.header-tab.header-hidden{
+    opacity: 0;
 }
 
 h1{
