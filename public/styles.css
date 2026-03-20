@@ -97,7 +97,7 @@ button {
     background-color: rgb(48, 58, 62);
     border-radius: 20px;
 
-    opacity: 0;
+    opacity: 1;
     transition: opacity 0.3s ease;
 }
 
