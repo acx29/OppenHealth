@@ -85,17 +85,32 @@ button {
     border-radius: 20px;
 }
 
+/* ----- Dashboard only: Cursor-ish dark UI (home / sign-in use their own classes) ----- */
 .dashboard {
-    background-color: rgb(40, 42, 46); 
-    color: white;
+    min-height: 100vh;
+    background-color: #1e1e1e;
+    color: #cccccc;
+    box-sizing: border-box;
+}
+
+.dashboard *,
+.dashboard *::before,
+.dashboard *::after {
+    box-sizing: inherit;
 }
 
 .header-tab{
     display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
     font-family: "inter", sans-serif;
     font-weight: 300;
-    background-color: rgb(48, 58, 62);
-    border-radius: 20px;
+    background-color: #252526;
+    border: 1px solid #3e3e42;
+    border-radius: 8px;
+    margin: 16px 20px 0;
+    padding: 8px 12px;
 
     opacity: 1;
     transition: opacity 0.3s ease;
@@ -103,6 +118,103 @@ button {
 
 .header-tab.header-hidden{
     opacity: 0;
+}
+
+.dashboard-main {
+    padding: 24px 20px 40px;
+    max-width: 720px;
+    margin: 0 auto;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.dashboard-main.header-hidden {
+    opacity: 0;
+}
+
+.header-actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.dashboard .log-activity-btn {
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    background-color: #0e639c;
+    color: #ffffff;
+    border: 1px solid #1177bb;
+}
+
+.dashboard .log-activity-btn:hover {
+    background-color: #1177bb;
+}
+
+.dashboard .header-tab .logout {
+    margin-left: 0;
+    border-radius: 6px;
+    background: #2d2d30;
+    border: 1px solid #3e3e42;
+    color: #cccccc;
+}
+
+.dashboard .header-tab .logout:hover {
+    background: #3e3e42;
+}
+
+.dashboard h1 {
+    margin: 12px 16px;
+    font-size: 1.25rem;
+    color: #e0e0e0;
+}
+
+.section-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #e0e0e0;
+    margin: 0 0 8px;
+}
+
+.section-hint {
+    margin: 0 0 16px;
+    font-size: 0.9rem;
+    color: #858585;
+}
+
+.workouts-feed {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.workout-card {
+    background: #252526;
+    border: 1px solid #3e3e42;
+    border-radius: 8px;
+    padding: 14px 16px;
+}
+
+.workout-card__sport {
+    font-weight: 500;
+    color: #e0e0e0;
+    margin-bottom: 4px;
+}
+
+.workout-card__meta {
+    font-size: 0.9rem;
+    color: #cccccc;
+}
+
+.workout-card__time {
+    font-size: 0.75rem;
+    color: #858585;
+    margin-top: 8px;
 }
 
 h1{
@@ -176,4 +288,162 @@ h1{
 
 input::placeholder {
     color: rgba(255,255,255,0.8);
+}
+
+/* Dashboard modals: match editor-style panels */
+body.dashboard .modal {
+    background: rgba(0, 0, 0, 0.55);
+}
+
+body.dashboard .modal-content {
+    position: relative;
+    background: #252526;
+    border: 1px solid #3e3e42;
+    border-radius: 8px;
+    color: #cccccc;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+}
+
+body.dashboard .modal-content--wide {
+    width: min(400px, 92vw);
+}
+
+body.dashboard .modal-content h2 {
+    margin: 0 0 16px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #e0e0e0;
+}
+
+body.dashboard .modal-content input {
+    width: 100%;
+    max-width: none;
+    background: #3c3c3c;
+    border: 1px solid #3e3e42;
+    border-radius: 4px;
+    color: #e0e0e0;
+    padding: 10px 12px;
+}
+
+body.dashboard .modal-content input:focus {
+    outline: 1px solid #0e639c;
+    outline-offset: 1px;
+}
+
+body.dashboard .modal-content button {
+    border-radius: 6px;
+}
+
+body.dashboard #setupModal .modal-content button,
+body.dashboard #setupSubmit {
+    background-color: #0e639c;
+    border: 1px solid #1177bb;
+    color: #fff;
+}
+
+.modal-label {
+    margin: 0 0 10px;
+    font-size: 0.85rem;
+    color: #858585;
+}
+
+.field-label {
+    display: block;
+    font-size: 0.8rem;
+    color: #858585;
+    margin: 10px 0 4px;
+}
+
+.field-label:first-of-type {
+    margin-top: 0;
+}
+
+.sport-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.sport-pill {
+    flex: 1;
+    min-width: 90px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #3e3e42;
+    background: #2d2d30;
+    color: #e0e0e0;
+    font-family: "inter", sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.sport-pill:hover:not(:disabled) {
+    background: #3e3e42;
+    border-color: #505050;
+}
+
+.sport-pill--disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+}
+
+.btn-primary {
+    flex: 1;
+    min-width: 120px;
+    padding: 10px 14px;
+    background: #0e639c;
+    color: #fff;
+    border: 1px solid #1177bb;
+    font-family: "inter", sans-serif;
+    font-weight: 500;
+}
+
+.btn-primary:hover {
+    background: #1177bb;
+}
+
+.btn-secondary {
+    padding: 10px 14px;
+    background: #2d2d30;
+    color: #cccccc;
+    border: 1px solid #3e3e42;
+    font-family: "inter", sans-serif;
+}
+
+.btn-secondary:hover {
+    background: #3e3e42;
+}
+
+.btn-text {
+    background: transparent;
+    border: none;
+    color: #858585;
+    font-size: 1.25rem;
+    line-height: 1;
+    padding: 4px 8px;
+    cursor: pointer;
+}
+
+.btn-text:hover {
+    color: #cccccc;
+}
+
+.modal-close-corner {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.form-error {
+    color: #f48771;
+    font-size: 0.85rem;
+    margin: 12px 0 0;
+    min-height: 1.2em;
 }
