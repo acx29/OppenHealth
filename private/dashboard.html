@@ -7,13 +7,24 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body class="dashboard">
-    
+
     <div class="header-tab header-hidden">
         <h1>Welcome back, <span id="userName"></span></h1>
-        <div class="logout" onclick="logoutUser()">
-            Log out
+        <div class="header-actions">
+            <button type="button" class="log-activity-btn" id="openActivityModal">Log activity</button>
+            <div class="logout" onclick="logoutUser()">
+                Log out
+            </div>
         </div>
     </div>
+
+    <main class="dashboard-main header-hidden" id="dashboardMain">
+        <section class="workouts-section" aria-labelledby="workoutsHeading">
+            <h2 id="workoutsHeading" class="section-title">Your workouts</h2>
+            <p class="section-hint" id="workoutsEmpty">No workouts logged yet. Use <strong>Log activity</strong> to add one.</p>
+            <ul class="workouts-feed" id="workoutsList" hidden></ul>
+        </section>
+    </main>
 
     <div id="setupModal" class="modal hidden">
         <div class="modal-content">
@@ -24,6 +35,42 @@
 
             <button id="setupSubmit">Save</button>
             <p id="setupError"></p>
+        </div>
+    </div>
+
+    <!-- Log activity: step 1 = pick sport, step 2 = running details -->
+    <div id="activityModal" class="modal hidden" aria-modal="true" role="dialog" aria-labelledby="activityModalTitle">
+        <div class="modal-content modal-content--wide">
+            <h2 id="activityModalTitle">Log activity</h2>
+
+            <div id="activityStepSport">
+                <p class="modal-label">Type of sport</p>
+                <div class="sport-grid">
+                    <button type="button" class="sport-pill" data-sport="running">Running</button>
+                    <button type="button" class="sport-pill sport-pill--disabled" disabled title="Coming soon">Soccer</button>
+                    <button type="button" class="sport-pill sport-pill--disabled" disabled title="Coming soon">Cycling</button>
+                </div>
+            </div>
+
+            <div id="activityStepRunning" class="hidden">
+                <p class="modal-label">Running details</p>
+                <label class="field-label" for="runDistance">Distance (miles)</label>
+                <input id="runDistance" type="number" min="0" step="0.01" placeholder="e.g. 3.1">
+
+                <label class="field-label" for="runDuration">Duration (minutes)</label>
+                <input id="runDuration" type="number" min="1" step="1" placeholder="e.g. 28">
+
+                <label class="field-label" for="runAvgHr">Average heart rate (bpm)</label>
+                <input id="runAvgHr" type="number" min="1" step="1" placeholder="e.g. 152">
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" id="activityBack">Back</button>
+                    <button type="button" class="btn-primary" id="activitySubmitRun">Save workout</button>
+                </div>
+            </div>
+
+            <p id="activityError" class="form-error" role="alert"></p>
+            <button type="button" class="btn-text modal-close-corner" id="closeActivityModal" aria-label="Close">✕</button>
         </div>
     </div>
 
