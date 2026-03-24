@@ -1,35 +1,29 @@
 <!DOCTYPE html>
-
-<html>
-    <html lang="en">
-
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="styles.css">
-        <title>Home page</title>
-        
-        <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- added Inter font-->
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-
-    </head>
-
-    <body class="home-page">
-        <h1 style="color: rgb(255, 255, 255); font-weight: 200;">Optimize your habits. Oppenheimer your health. Become Aphex Twin.</h1>
-        <p style="color: rgb(255, 255, 255); font-weight: 200; text-align: center;">Backed by industry leaders such as the <a href="https://oaklet.com/" target="_blank" rel="noopener noreferrer">Oaklet fund</a> ($50,000,000 investment) and relied on by legendary athletes including Tadej Pogačar, Jakob Ingebrigtsen, <a href="https://youtu.be/cz2Ld1jaxzI?t=89" target="_blank" rel="noopener noreferrer">Kylian Mbappé</a>, and Terence Tao,
- Oppenheimer Health is revolutionizing the way athletes are recording, analyzing, and sharing data. Change your life today. </p> <!-- this is called inline CSS-->
-        <p style="text-align: center; color: white">
-            <a href="signUp.html" style="color: white">
-                <button style="font-size: 30px">Sign up</button>
-            </a> <br><br>
-            Already have an account? <a href="signIn.html">Sign in<a>     
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Home page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+</head>
+<body class="home-page">
+    <main class="home-hero">
+        <h1 class="home-title">Optimize your habits. Oppenheimer your health. Become Aphex Twin.</h1>
+        <p class="home-copy">
+            Backed by industry leaders such as the <a href="https://oaklet.com/" target="_blank" rel="noopener noreferrer">Oaklet fund</a> ($50,000,000 investment) and relied on by legendary athletes including Tadej Pogačar, Jakob Ingebrigtsen, <a href="https://youtu.be/cz2Ld1jaxzI?t=89" target="_blank" rel="noopener noreferrer">Kylian Mbappé</a>, and Terence Tao,
+            Oppenheimer Health is revolutionizing the way athletes are recording, analyzing, and sharing data. Change your life today.
         </p>
-
-        <!--Put script at the bottom so that HTML is loaded first-->
-        <script> 
-        </script>
-
-    </body>
-
+        <div class="home-cta">
+            <a class="home-signup-link" href="signUp.html">
+                <button type="button" class="home-signup-btn">Sign up</button>
+            </a>
+            <p class="home-signin-text">
+                Already have an account? <a href="signIn.html">Sign in</a>
+            </p>
+        </div>
+    </main>
+</body>
 </html>

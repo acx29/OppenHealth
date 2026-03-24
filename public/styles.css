@@ -34,8 +34,66 @@ body {
     background-image: url("./images/urban-vintage-78A265wPiO4-unsplash.jpg");
     background-repeat: no-repeat; /* This is crucial so that it doesn't focus on some rando ahh part of the image */
     background-size: cover;
+    background-position: center;
     align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 24px;
+}
 
+.home-hero {
+    width: min(880px, 92vw);
+    text-align: center;
+    color: #ffffff;
+    background: rgba(20, 22, 26, 0.58);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 16px;
+    padding: 34px 28px;
+    backdrop-filter: blur(1.5px);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+}
+
+.home-title {
+    margin: 0 0 18px;
+    font-weight: 300;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    letter-spacing: 0.2px;
+}
+
+.home-copy {
+    margin: 0;
+    font-size: 1.02rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.94);
+}
+
+.home-cta {
+    margin-top: 30px;
+}
+
+.home-signup-link {
+    text-decoration: none;
+}
+
+.home-signup-btn {
+    font-size: 1.75rem;
+    padding: 12px 24px;
+    border-radius: 14px;
+    background: rgba(101, 193, 255, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.42);
+    color: #ffffff;
+    transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.home-signup-btn:hover {
+    transform: translateY(-1px);
+    background: rgba(101, 193, 255, 0.88);
+}
+
+.home-signin-text {
+    margin: 16px 0 0;
+    font-size: 1rem;
+    color: #ffffff;
 }
 
 .flex-container {
