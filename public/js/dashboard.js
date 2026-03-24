@@ -96,119 +96,205 @@ async function checkSetup() {
     }
 }
 
-document.getElementById("setupSubmit").addEventListener("click", async () => {
-    const name = document.getElementById("nameInput").value.trim();
-    const username = document.getElementById("usernameInput").value.trim();
-    const errorText = document.getElementById("setupError");
+const setupSubmitBtn = document.getElementById("setupSubmit");
+if (setupSubmitBtn) {
+    setupSubmitBtn.addEventListener("click", async () => {
+        const name = document.getElementById("nameInput").value.trim();
+        const username = document.getElementById("usernameInput").value.trim();
+        const errorText = document.getElementById("setupError");
 
-    errorText.textContent = "";
+        errorText.textContent = "";
 
-    if (!name || !username) {
-        errorText.textContent = "Both fields are required.";
-        return;
-    }
+        if (!name || !username) {
+            errorText.textContent = "Both fields are required.";
+            return;
+        }
 
-    const res = await fetch("/api/profile/setup", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        credentials: "include",
-        body: JSON.stringify({ name, username })
+        const res = await fetch("/api/profile/setup", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include",
+            body: JSON.stringify({ name, username })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            errorText.textContent = data.message || "Setup failed.";
+            return;
+        }
+
+        document.getElementById("setupModal").classList.add("hidden");
+        await loadWorkouts();
     });
+}
 
-    const data = await res.json();
+/* ---------- Log activity modal + History API ----------
+   Problem: the browser Back button changes the *history stack* (real navigation),
+   not your modal’s “step”. We push lightweight history entries when the modal opens
+   and when the user goes to Running, then listen for "popstate" to sync the UI.
 
-    if (!res.ok) {
-        errorText.textContent = data.message || "Setup failed.";
-        return;
-    }
-
-    document.getElementById("setupModal").classList.add("hidden");
-    await loadWorkouts();
-});
-
-/* ---------- Log activity modal ---------- */
+   - Back on Running step → pops to “sport picker” state (same page, no full reload).
+   - Back on sport step → pops our modal state; modal closes; you stay on /dashboard.
+*/
 
 const activityModal = document.getElementById("activityModal");
 const activityStepSport = document.getElementById("activityStepSport");
 const activityStepRunning = document.getElementById("activityStepRunning");
 const activityError = document.getElementById("activityError");
 
-function resetActivityModal() {
-    activityError.textContent = "";
-    activityStepSport.classList.remove("hidden");
-    activityStepRunning.classList.add("hidden");
-    document.getElementById("runDistance").value = "";
-    document.getElementById("runDuration").value = "";
-    document.getElementById("runAvgHr").value = "";
+const ACTIVITY_STATE_KEY = "dhActivity";
+
+function resetActivityFormFields() {
+    if (activityError) activityError.textContent = "";
+    if (activityStepSport) activityStepSport.classList.remove("hidden");
+    if (activityStepRunning) activityStepRunning.classList.add("hidden");
+    const rd = document.getElementById("runDistance");
+    const rt = document.getElementById("runDuration");
+    const rh = document.getElementById("runAvgHr");
+    if (rd) rd.value = "";
+    if (rt) rt.value = "";
+    if (rh) rh.value = "";
 }
 
-function openActivityModal() {
-    resetActivityModal();
-    activityModal.classList.remove("hidden");
-}
+/** Show / hide modal and steps to match history.state (after popstate or push). */
+function syncActivityModalFromHistory() {
+    if (!activityModal || !activityStepSport || !activityStepRunning) return;
 
-function closeActivityModal() {
-    activityModal.classList.add("hidden");
-    resetActivityModal();
-}
-
-document.getElementById("openActivityModal").addEventListener("click", openActivityModal);
-document.getElementById("closeActivityModal").addEventListener("click", closeActivityModal);
-
-activityModal.addEventListener("click", (e) => {
-    if (e.target === activityModal) {
-        closeActivityModal();
-    }
-});
-
-const runningSportBtn = document.querySelector(
-    '.sport-pill[data-sport="running"]'
-);
-if (runningSportBtn) {
-    runningSportBtn.addEventListener("click", () => {
-        activityError.textContent = "";
-        activityStepSport.classList.add("hidden");
-        activityStepRunning.classList.remove("hidden");
-    });
-}
-
-document.getElementById("activityBack").addEventListener("click", () => {
-    activityError.textContent = "";
-    activityStepRunning.classList.add("hidden");
-    activityStepSport.classList.remove("hidden");
-});
-
-document.getElementById("activitySubmitRun").addEventListener("click", async () => {
-    activityError.textContent = "";
-
-    const distance_miles = document.getElementById("runDistance").value.trim();
-    const duration_minutes = document.getElementById("runDuration").value.trim();
-    const avg_hr = document.getElementById("runAvgHr").value.trim();
-
-    const res = await fetch("/api/workouts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({
-            sport: "running",
-            duration_minutes,
-            distance_miles,
-            avg_hr
-        })
-    });
-
-    const data = await res.json().catch(() => ({}));
-
-    if (!res.ok) {
-        activityError.textContent =
-            data.message || data.error_description || "Could not save workout.";
+    const s = history.state;
+    if (s && s[ACTIVITY_STATE_KEY]) {
+        activityModal.classList.remove("hidden");
+        if (s.step === "running") {
+            activityStepSport.classList.add("hidden");
+            activityStepRunning.classList.remove("hidden");
+        } else {
+            activityStepSport.classList.remove("hidden");
+            activityStepRunning.classList.add("hidden");
+        }
         return;
     }
 
-    closeActivityModal();
-    await loadWorkouts();
+    activityModal.classList.add("hidden");
+    resetActivityFormFields();
+}
+
+function openActivityModal() {
+    if (!activityModal) return;
+    resetActivityFormFields();
+    activityModal.classList.remove("hidden");
+    history.pushState(
+        { [ACTIVITY_STATE_KEY]: true, step: "sport" },
+        "",
+        window.location.href
+    );
+}
+
+/**
+ * Close modal and remove our history entries so Back doesn’t leave a “ghost” state.
+ */
+function closeActivityModal() {
+    if (!activityModal) return;
+
+    if (!activityModal.classList.contains("hidden") && history.state?.[ACTIVITY_STATE_KEY]) {
+        const depth = history.state.step === "running" ? 2 : 1;
+        history.go(-depth);
+        return;
+    }
+
+    activityModal.classList.add("hidden");
+    resetActivityFormFields();
+}
+
+window.addEventListener("popstate", () => {
+    syncActivityModalFromHistory();
 });
+
+if (
+    activityModal &&
+    activityStepSport &&
+    activityStepRunning
+) {
+    const openBtn = document.getElementById("openActivityModal");
+    if (openBtn) {
+        openBtn.addEventListener("click", openActivityModal);
+    }
+
+    const closeBtn = document.getElementById("closeActivityModal");
+    if (closeBtn) {
+        closeBtn.addEventListener("click", closeActivityModal);
+    }
+
+    activityModal.addEventListener("click", (e) => {
+        if (e.target === activityModal) {
+            closeActivityModal();
+        }
+    });
+
+    const runningSportBtn = document.querySelector(
+        '.sport-pill[data-sport="running"]'
+    );
+    if (runningSportBtn) {
+        runningSportBtn.addEventListener("click", () => {
+            if (activityError) activityError.textContent = "";
+            history.pushState(
+                { [ACTIVITY_STATE_KEY]: true, step: "running" },
+                "",
+                window.location.href
+            );
+            syncActivityModalFromHistory();
+        });
+    }
+
+    const backBtn = document.getElementById("activityBack");
+    if (backBtn) {
+        backBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            if (history.state?.[ACTIVITY_STATE_KEY] && history.state.step === "running") {
+                history.back();
+            }
+        });
+    }
+
+    const submitRunBtn = document.getElementById("activitySubmitRun");
+    if (submitRunBtn) {
+        submitRunBtn.addEventListener("click", async () => {
+            if (activityError) activityError.textContent = "";
+
+            const distance_miles = document.getElementById("runDistance")?.value.trim() ?? "";
+            const duration_minutes =
+                document.getElementById("runDuration")?.value.trim() ?? "";
+            const avg_hr = document.getElementById("runAvgHr")?.value.trim() ?? "";
+
+            const res = await fetch("/api/workouts", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({
+                    sport: "running",
+                    duration_minutes,
+                    distance_miles,
+                    avg_hr
+                })
+            });
+
+            const data = await res.json().catch(() => ({}));
+
+            if (!res.ok) {
+                if (activityError) {
+                    activityError.textContent =
+                        data.message ||
+                        data.error_description ||
+                        "Could not save workout.";
+                }
+                return;
+            }
+
+            closeActivityModal();
+            await loadWorkouts();
+        });
+    }
+}
 
 checkSetup();
