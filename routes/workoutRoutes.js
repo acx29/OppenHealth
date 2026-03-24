@@ -100,4 +100,33 @@ router.post("/workouts", requireAuth, async (req, res) => {
         .json({ message: "That sport is not implemented yet. Use Running for now." });
 });
 
+router.delete("/workouts/:id", requireAuth, async (req, res) => {
+
+    const { id } = req.params;
+    const workoutId = id.trim();
+
+    if(workoutId == null || workoutId === ""){ // checking for valid id
+        return res.status(400).json({message: "Invalid workout ID."});
+    }
+
+    const {data, error} = await supabase
+        .from("workouts")
+        .delete()
+        .eq("user_id", req.user.id)
+        .eq("id", workoutId)
+        .select()
+
+        if(error){ // server issue (supabase)
+            return res.status(500).json({ message: error.message || "Could not delete workout." });
+        }
+
+        if(!data || data.length === 0){ // delete work but nothing to delete
+            return res.status(404).json({ message: "Workout not found." });
+        }
+
+        return res.status(204).end();
+    
+})
+
+
 export default router;

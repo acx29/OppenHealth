@@ -56,7 +56,23 @@ async function loadWorkouts() {
             <div class="workout-card__sport">${sportLabel}</div>
             <div class="workout-card__meta">${detail}</div>
             <div class="workout-card__time">${when}</div>
+            <div class="workout-card__actions">
+                <button class="workout-card-delete">Delete</button>
+            </div>
         `;
+
+        const deleteBtn = li.querySelector(".workout-card-delete");
+        if(deleteBtn){
+            
+            deleteBtn.addEventListener("click", async () => {
+                const confirmed = window.confirm("Are you sure you want to delete this workout?");
+                if(confirmed){
+                    await deleteWorkout(w.id);
+                }
+            });
+            
+        }
+
         listEl.appendChild(li);
     }
 }
@@ -296,5 +312,21 @@ if (
         });
     }
 }
+
+async function deleteWorkout(workoutID){
+    const res = await fetch(`/api/workouts/${workoutID}`, {
+        method: "DELETE",
+        credentials: "include"
+    });
+
+    if(!res.ok){
+        const err = await res.json();
+        console.error(err.message || "Could not delete workout."); // error message from the server
+        return;
+    }    
+
+    await loadWorkouts(); // reloads the workouts
+}
+
 
 checkSetup();
