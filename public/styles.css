@@ -245,6 +245,11 @@ button {
     border-radius: 4px;
 }
 
+.user-name-edit--saving .user-name-display:not(:disabled) {
+    opacity: 0.72;
+    cursor: progress;
+}
+
 .user-name-display {
     margin: 0;
     padding: 2px 0;
