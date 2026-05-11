@@ -16,4 +16,8 @@ router.get("/dashboard", requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, "..", "private", "dashboard.html"));
 });
 
+router.get("/connect-devices", requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, "..", "private", "connect-devices.html"));
+});
+
 export default router;
