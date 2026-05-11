@@ -180,10 +180,76 @@ button {
 
 .dashboard-main {
     padding: 24px 20px 40px;
-    max-width: 720px;
+    max-width: 1120px;
     margin: 0 auto;
     opacity: 1;
     transition: opacity 0.3s ease;
+}
+
+.dashboard-body {
+    display: grid;
+    grid-template-columns: minmax(0, min(640px, 100%)) minmax(0, 1fr);
+    gap: 28px 36px;
+    align-items: start;
+}
+
+@media (max-width: 768px) {
+    .dashboard-body {
+        grid-template-columns: 1fr;
+    }
+}
+
+.connect-devices-panel {
+    background: #252526;
+    border: 1px solid #3e3e42;
+    border-radius: 8px;
+    padding: 16px 18px;
+    max-width: 320px;
+}
+
+@media (max-width: 768px) {
+    .connect-devices-panel {
+        max-width: none;
+    }
+}
+
+.dashboard a.connect-devices-link {
+    display: inline-block;
+    text-decoration: none;
+    margin-top: 4px;
+}
+
+.dashboard a.connect-devices-link:visited {
+    color: #ffffff;
+}
+
+.dashboard a.connect-devices-header-link {
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+}
+
+.dashboard a.connect-devices-header-link:visited {
+    color: #ffffff;
+}
+
+.connect-devices-content {
+    max-width: 640px;
+}
+
+.connect-devices-actions {
+    margin-top: 16px;
+}
+
+.connect-devices-status:not(:empty) {
+    margin-top: 14px;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    color: #cccccc;
+}
+
+.connect-devices-status.connect-devices-status--error {
+    color: #f48771;
 }
 
 .dashboard-main.header-hidden {
@@ -209,6 +275,10 @@ button {
 
 .dashboard .log-activity-btn:hover {
     background-color: #1177bb;
+}
+
+.dashboard a.log-activity-btn:hover {
+    color: #ffffff;
 }
 
 .dashboard .header-tab .logout {

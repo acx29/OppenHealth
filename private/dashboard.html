@@ -19,11 +19,18 @@
     </div>
 
     <main class="dashboard-main header-hidden" id="dashboardMain">
-        <section class="workouts-section" aria-labelledby="workoutsHeading">
-            <h2 id="workoutsHeading" class="section-title">Your workouts</h2>
-            <p class="section-hint" id="workoutsEmpty">No workouts logged yet. Use <strong>Log activity</strong> to add one.</p>
-            <ul class="workouts-feed" id="workoutsList" hidden></ul>
-        </section>
+        <div class="dashboard-body">
+            <section class="workouts-section" aria-labelledby="workoutsHeading">
+                <h2 id="workoutsHeading" class="section-title">Your workouts</h2>
+                <p class="section-hint" id="workoutsEmpty">No workouts logged yet. Use <strong>Log activity</strong> to add one.</p>
+                <ul class="workouts-feed" id="workoutsList" hidden></ul>
+            </section>
+            <aside class="connect-devices-panel" aria-labelledby="connectDevicesHeading">
+                <h2 id="connectDevicesHeading" class="section-title">Devices</h2>
+                <p class="section-hint">Sync workouts from wearables and apps.</p>
+                <a href="/connect-devices" class="log-activity-btn connect-devices-link">Connect devices</a>
+            </aside>
+        </div>
     </main>
 
     <div id="setupModal" class="modal hidden">

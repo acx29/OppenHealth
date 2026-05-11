@@ -8,6 +8,7 @@ import authRoutes from "./routes/authRoutes.js"; // makes sure we can access the
 import pageRoutes from "./routes/pageRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js";
 import workoutRoutes from "./routes/workoutRoutes.js";
+import integrationRoutes from "./routes/integrationRoutes.js";
 
 dotenv.config(); // finds the env (library) file, and loads variables from the file (class)
 
@@ -23,6 +24,7 @@ app.use("/api", authRoutes); // api is clean convention for backend routes, so w
 app.use("/", pageRoutes);
 app.use("/api", profileRoutes);
 app.use("/api", workoutRoutes);
+app.use("/api", integrationRoutes);
 
 const PORT = process.env.PORT || 3000;
 
