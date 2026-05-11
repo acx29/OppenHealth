@@ -85,8 +85,16 @@ async function checkSetup() {
 
     const profile = await res.json();
 
-    if (!res.ok) {
-        console.error(profile);
+    if (!res.ok) { // This block makes sure that we still see somehting even if the profile is not found
+        console.error(profile); // outputs error message from the server
+        const header = document.querySelector(".header-tab");
+        const main = document.getElementById("dashboardMain");
+        if (header) header.classList.remove("header-hidden");
+        if (main) main.classList.remove("header-hidden");
+        const nameEl = document.getElementById("userName");
+        if (nameEl) {
+            nameEl.textContent = "there";
+        }
         return;
     }
 
