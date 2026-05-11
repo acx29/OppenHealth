@@ -7,6 +7,105 @@ async function logoutUser() {
     window.location.href = "/signIn.html";
 }
 
+const userNameEditRoot = document.getElementById("userNameEdit");
+const userNameBtn = document.getElementById("userNameBtn");
+const userNameSpan = document.getElementById("userName");
+const userNameInput = document.getElementById("userNameInput");
+
+let nameBeforeEdit = "";
+
+function setNameEditorInteractive(enabled) {
+    if (!userNameBtn) return;
+    userNameBtn.disabled = !enabled;
+    userNameBtn.setAttribute(
+        "aria-label",
+        enabled ? "Edit display name" : "Display name"
+    );
+}
+
+function leaveDisplayNameEditMode() {
+    if (!userNameEditRoot || !userNameBtn || !userNameInput) return;
+    userNameEditRoot.classList.remove("user-name-edit--active");
+    userNameInput.hidden = true;
+    userNameBtn.hidden = false;
+}
+
+function cancelDisplayNameEdit() {
+    if (!userNameInput) return;
+    userNameInput.value = nameBeforeEdit;
+    leaveDisplayNameEditMode();
+}
+
+async function commitDisplayNameEdit() {
+    if (!userNameSpan || !userNameInput) return;
+
+    const next = userNameInput.value.trim();
+    if (!next) {
+        userNameInput.value = nameBeforeEdit;
+        leaveDisplayNameEditMode();
+        return;
+    }
+
+    if (next === nameBeforeEdit) {
+        leaveDisplayNameEditMode();
+        return;
+    }
+
+    const res = await fetch("/api/profile", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ name: next })
+    });
+
+    const data = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+        window.alert(data.message || "Could not update name.");
+        userNameInput.value = nameBeforeEdit;
+        leaveDisplayNameEditMode();
+        return;
+    }
+
+    userNameSpan.textContent = data.name ?? next;
+    leaveDisplayNameEditMode();
+}
+
+function initDisplayNameEditor() {
+    if (!userNameBtn || !userNameInput || !userNameSpan || !userNameEditRoot) return;
+
+    userNameBtn.addEventListener("click", () => {
+        if (userNameBtn.disabled) return;
+        nameBeforeEdit = userNameSpan.textContent.trim();
+        userNameEditRoot.classList.add("user-name-edit--active");
+        userNameBtn.hidden = true;
+        userNameInput.hidden = false;
+        userNameInput.value = nameBeforeEdit;
+        userNameInput.focus();
+        userNameInput.select();
+    });
+
+    userNameInput.addEventListener("blur", () => {
+        queueMicrotask(() => {
+            if (userNameInput.hidden) return;
+            void commitDisplayNameEdit();
+        });
+    });
+
+    userNameInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            userNameInput.blur();
+        }
+        if (e.key === "Escape") {
+            e.preventDefault();
+            cancelDisplayNameEdit();
+        }
+    });
+}
+
+initDisplayNameEditor();
+
 /**
  * Fetches workouts from our Express API.
  * The browser sends cookies (JWT) because of credentials: "include".
@@ -95,6 +194,7 @@ async function checkSetup() {
         if (nameEl) {
             nameEl.textContent = "there";
         }
+        setNameEditorInteractive(false);
         return;
     }
 
@@ -102,6 +202,7 @@ async function checkSetup() {
     if (nameEl && profile.name) {
         nameEl.textContent = profile.name;
     }
+    setNameEditorInteractive(true);
 
     const header = document.querySelector(".header-tab");
     if (header) {
@@ -151,6 +252,11 @@ if (setupSubmitBtn) {
         }
 
         document.getElementById("setupModal").classList.add("hidden");
+        const nameSpan = document.getElementById("userName");
+        if (nameSpan) {
+            nameSpan.textContent = name;
+        }
+        setNameEditorInteractive(true);
         await loadWorkouts();
     });
 }
