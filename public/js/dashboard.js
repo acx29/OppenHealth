@@ -51,24 +51,35 @@ async function commitDisplayNameEdit() {
         return;
     }
 
-    const res = await fetch("/api/profile", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ name: next })
-    });
+    const revertTo = nameBeforeEdit;
 
-    const data = await res.json().catch(() => ({}));
-
-    if (!res.ok) {
-        window.alert(data.message || "Could not update name.");
-        userNameInput.value = nameBeforeEdit;
-        leaveDisplayNameEditMode();
-        return;
-    }
-
-    userNameSpan.textContent = data.name ?? next;
+    userNameSpan.textContent = next;
     leaveDisplayNameEditMode();
+
+    userNameEditRoot?.classList.add("user-name-edit--saving");
+    userNameEditRoot?.setAttribute("aria-busy", "true");
+
+    try {
+        const res = await fetch("/api/profile", {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({ name: next })
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok) {
+            userNameSpan.textContent = revertTo;
+            window.alert(data.message || "Could not update name.");
+            return;
+        }
+
+        userNameSpan.textContent = data.name ?? next;
+    } finally {
+        userNameEditRoot?.classList.remove("user-name-edit--saving");
+        userNameEditRoot?.removeAttribute("aria-busy");
+    }
 }
 
 function initDisplayNameEditor() {
