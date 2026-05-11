@@ -120,10 +120,10 @@ initDisplayNameEditor();
 /** Local calendar date as YYYY-MM-DD (matches how we show workout times to the user). */
 function localDateKeyFromIso(iso) {
     const date = new Date(iso);
-    const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, "0");
-    const day = String(d.getDate()).padStart(2, "0");
-    return `${y}-${m}-${day}`;
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
 }
 
 /** Midnight local time for the given Date (mutates and returns same instance). */
