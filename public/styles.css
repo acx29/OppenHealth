@@ -180,7 +180,7 @@ button {
 
 .dashboard-main {
     padding: 24px 20px 40px;
-    max-width: 1120px;
+    max-width: 1240px;
     margin: 0 auto;
     opacity: 1;
     transition: opacity 0.3s ease;
@@ -188,14 +188,143 @@ button {
 
 .dashboard-body {
     display: grid;
-    grid-template-columns: minmax(0, min(640px, 100%)) minmax(0, 1fr);
+    grid-template-columns: minmax(200px, 280px) minmax(0, 1fr);
     gap: 28px 36px;
     align-items: start;
+}
+
+.stats-section {
+    min-width: 0;
+}
+
+.stats-card {
+    background: #252526;
+    border: 1px solid #3e3e42;
+    border-radius: 8px;
+    padding: 16px 18px;
+}
+
+.stats-card .section-title {
+    margin-bottom: 6px;
+}
+
+.stats-card__hint {
+    margin-bottom: 12px;
+    font-size: 0.85rem;
+}
+
+.stats-heatmap-wrap {
+    overflow-x: auto;
+    margin: 0 -4px;
+    padding: 4px;
+    -webkit-overflow-scrolling: touch;
+}
+
+.stats-heatmap {
+    --stats-cell: 11px;
+    --stats-gap: 3px;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: var(--stats-cell);
+    grid-template-rows: repeat(7, var(--stats-cell));
+    gap: var(--stats-gap);
+    width: max-content;
+    min-height: calc(7 * var(--stats-cell) + 6 * var(--stats-gap));
+}
+
+.stats-heatmap-cell {
+    width: var(--stats-cell);
+    height: var(--stats-cell);
+    border-radius: 2px;
+    box-sizing: border-box;
+}
+
+.stats-heatmap-cell--empty {
+    background-color: #2d333b;
+    border: 1px solid #444c56;
+}
+
+.stats-heatmap-cell--future {
+    background-color: #1e1e1e;
+    border: 1px solid #2d2d30;
+    opacity: 0.35;
+}
+
+.stats-heatmap-cell--lvl1 {
+    background-color: #0e4429;
+    border: 1px solid #196c2e;
+}
+
+.stats-heatmap-cell--lvl2 {
+    background-color: #006d32;
+    border: 1px solid #26a641;
+}
+
+.stats-heatmap-legend {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 4px;
+    margin-top: 10px;
+    font-size: 0.75rem;
+    color: #858585;
+}
+
+.stats-heatmap-legend__swatch {
+    width: 11px;
+    height: 11px;
+    border-radius: 2px;
+}
+
+.stats-heatmap-legend__label:first-child {
+    margin-right: 4px;
+}
+
+.stats-heatmap-legend__label:last-child {
+    margin-left: 4px;
+}
+
+.workouts-section {
+    min-width: 0;
+}
+
+.workouts-body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 20px 28px;
+}
+
+.workouts-main {
+    flex: 1 1 min(0, 560px);
+    min-width: min(100%, 280px);
+}
+
+.workouts-main .section-hint {
+    margin-bottom: 16px;
+}
+
+.workouts-main .workouts-feed {
+    margin-top: 0;
 }
 
 @media (max-width: 768px) {
     .dashboard-body {
         grid-template-columns: 1fr;
+    }
+
+    .workouts-body {
+        flex-direction: column;
+    }
+
+    .workouts-main {
+        flex: 1 1 auto;
+        width: 100%;
+    }
+
+    .stats-heatmap {
+        --stats-cell: 10px;
+        --stats-gap: 2px;
     }
 }
 
@@ -205,11 +334,13 @@ button {
     border-radius: 8px;
     padding: 16px 18px;
     max-width: 320px;
+    flex: 0 0 auto;
 }
 
 @media (max-width: 768px) {
     .connect-devices-panel {
         max-width: none;
+        width: 100%;
     }
 }
 

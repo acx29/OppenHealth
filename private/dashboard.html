@@ -20,16 +20,36 @@
 
     <main class="dashboard-main header-hidden" id="dashboardMain">
         <div class="dashboard-body">
+            <section class="stats-section" aria-labelledby="statsHeading">
+                <div class="stats-card">
+                    <h2 id="statsHeading" class="section-title">Your stats</h2>
+                    <p class="section-hint stats-card__hint">Days you logged a workout (last ~53 weeks).</p>
+                    <div class="stats-heatmap-wrap" id="statsHeatmapWrap">
+                        <div class="stats-heatmap" id="statsHeatmap" role="img" aria-label="Workout consistency by day"></div>
+                    </div>
+                    <div class="stats-heatmap-legend" aria-hidden="true">
+                        <span class="stats-heatmap-legend__label">Less</span>
+                        <span class="stats-heatmap-legend__swatch stats-heatmap-cell--empty"></span>
+                        <span class="stats-heatmap-legend__swatch stats-heatmap-cell--lvl1"></span>
+                        <span class="stats-heatmap-legend__swatch stats-heatmap-cell--lvl2"></span>
+                        <span class="stats-heatmap-legend__label">More</span>
+                    </div>
+                </div>
+            </section>
             <section class="workouts-section" aria-labelledby="workoutsHeading">
                 <h2 id="workoutsHeading" class="section-title">Your workouts</h2>
-                <p class="section-hint" id="workoutsEmpty">No workouts logged yet. Use <strong>Log activity</strong> to add one.</p>
-                <ul class="workouts-feed" id="workoutsList" hidden></ul>
+                <div class="workouts-body">
+                    <div class="workouts-main">
+                        <p class="section-hint" id="workoutsEmpty">No workouts logged yet. Use <strong>Log activity</strong> to add one.</p>
+                        <ul class="workouts-feed" id="workoutsList" hidden></ul>
+                    </div>
+                    <aside class="connect-devices-panel" aria-labelledby="connectDevicesHeading">
+                        <h2 id="connectDevicesHeading" class="section-title">Devices</h2>
+                        <p class="section-hint">Sync workouts from wearables and apps.</p>
+                        <a href="/connect-devices" class="log-activity-btn connect-devices-link">Connect devices</a>
+                    </aside>
+                </div>
             </section>
-            <aside class="connect-devices-panel" aria-labelledby="connectDevicesHeading">
-                <h2 id="connectDevicesHeading" class="section-title">Devices</h2>
-                <p class="section-hint">Sync workouts from wearables and apps.</p>
-                <a href="/connect-devices" class="log-activity-btn connect-devices-link">Connect devices</a>
-            </aside>
         </div>
     </main>
 

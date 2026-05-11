@@ -117,6 +117,89 @@ function initDisplayNameEditor() {
 
 initDisplayNameEditor();
 
+/** Local calendar date as YYYY-MM-DD (matches how we show workout times to the user). */
+function localDateKeyFromIso(iso) {
+    const d = new Date(iso);
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${y}-${m}-${day}`;
+}
+
+/** Midnight local time for the given Date (mutates and returns same instance). */
+function startOfLocalDay(d) {
+    d.setHours(0, 0, 0, 0);
+    return d;
+}
+
+/**
+ * Sunday at local midnight for the week that contains `day` (local).
+ * @param {Date} day
+ */
+function sundayOfWeekContaining(day) {
+    const d = new Date(day);
+    startOfLocalDay(d);
+    d.setDate(d.getDate() - d.getDay());
+    return d;
+}
+
+const HEATMAP_WEEKS = 53;
+
+/**
+ * GitHub-style grid: columns = weeks (oldest left), rows = Sun–Sat top to bottom.
+ * @param {Array<{ created_at: string }>} workouts
+ */
+function renderStatsHeatmap(workouts) {
+    const root = document.getElementById("statsHeatmap");
+    if (!root) return;
+
+    /** @type {Map<string, number>} */
+    const counts = new Map();
+    for (const w of workouts) {
+        const key = localDateKeyFromIso(w.created_at);
+        counts.set(key, (counts.get(key) ?? 0) + 1);
+    }
+
+    const today = new Date();
+    startOfLocalDay(today);
+
+    const thisWeekSunday = sundayOfWeekContaining(today);
+    const firstSunday = new Date(thisWeekSunday);
+    firstSunday.setDate(thisWeekSunday.getDate() - (HEATMAP_WEEKS - 1) * 7);
+
+    root.replaceChildren();
+
+    for (let c = 0; c < HEATMAP_WEEKS; c++) {
+        for (let r = 0; r < 7; r++) {
+            const cellDate = new Date(firstSunday);
+            cellDate.setDate(firstSunday.getDate() + c * 7 + r);
+            startOfLocalDay(cellDate);
+
+            const key = `${cellDate.getFullYear()}-${String(cellDate.getMonth() + 1).padStart(2, "0")}-${String(cellDate.getDate()).padStart(2, "0")}`;
+            const n = counts.get(key) ?? 0;
+
+            const el = document.createElement("span");
+            el.className = "stats-heatmap-cell";
+
+            if (cellDate > today) {
+                el.classList.add("stats-heatmap-cell--future");
+                el.title = `${key} (upcoming)`;
+            } else if (n === 0) {
+                el.classList.add("stats-heatmap-cell--empty");
+                el.title = `${key}: No workout`;
+            } else if (n === 1) {
+                el.classList.add("stats-heatmap-cell--lvl1");
+                el.title = `${key}: 1 workout`;
+            } else {
+                el.classList.add("stats-heatmap-cell--lvl2");
+                el.title = `${key}: ${n} workouts`;
+            }
+
+            root.appendChild(el);
+        }
+    }
+}
+
 /**
  * Fetches workouts from our Express API.
  * The browser sends cookies (JWT) because of credentials: "include".
@@ -137,8 +220,10 @@ async function loadWorkouts() {
         return;
     }
 
-    /** @type {Array<{ sport: string; distance_miles: number | null; duration_minutes: number; avg_hr: number | null; created_at: string }>} */
+    /** @type {Array<{ id: string; sport: string; distance_miles: number | null; duration_minutes: number; avg_hr: number | null; created_at: string }>} */
     const workouts = await res.json();
+
+    renderStatsHeatmap(workouts);
 
     listEl.innerHTML = "";
     if (!workouts.length) {
