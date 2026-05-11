@@ -103,4 +103,30 @@ router.post("/profile/setup", requireAuth, async (req, res) => {
 
 });
 
+router.patch("/profile", requireAuth, async (req, res) => {
+    const raw = req.body?.name;
+    const name = typeof raw === "string" ? raw.trim() : "";
+
+    if (!name) {
+        return res.status(400).json({ message: "Name is required." });
+    }
+
+    const { error: ensureError } = await ensureUserProfile(req.user.id);
+
+    if (ensureError) {
+        return res.status(400).json(ensureError);
+    }
+
+    const { error } = await supabase
+        .from("user_profiles")
+        .update({ name })
+        .eq("id", req.user.id);
+
+    if (error) {
+        return res.status(400).json(error);
+    }
+
+    res.json({ message: "Profile updated.", name });
+});
+
 export default router;
