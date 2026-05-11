@@ -213,24 +213,56 @@ button {
     }
 }
 
-.dashboard a.connect-devices-link {
+.dashboard a.connect-devices-link.log-activity-btn {
     display: inline-block;
     text-decoration: none;
     margin-top: 4px;
+    cursor: pointer;
+    background-color: #3d3d40;
+    color: #e8e8ea;
+    border: 1px solid #5a5a5e;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
 }
 
-.dashboard a.connect-devices-link:visited {
+.dashboard a.connect-devices-link.log-activity-btn:visited {
+    color: #e8e8ea;
+}
+
+.dashboard a.connect-devices-link.log-activity-btn:hover {
+    background-color: #4a4a4f;
+    border-color: #6e6e73;
     color: #ffffff;
 }
 
-.dashboard a.connect-devices-header-link {
+.dashboard a.connect-devices-link.log-activity-btn:focus-visible {
+    outline: 2px solid #7eb8ff;
+    outline-offset: 2px;
+}
+
+.dashboard a.connect-devices-header-link.log-activity-btn {
     display: inline-block;
     text-decoration: none;
     text-align: center;
+    cursor: pointer;
+    background-color: #3d3d40;
+    color: #e8e8ea;
+    border: 1px solid #5a5a5e;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
 }
 
-.dashboard a.connect-devices-header-link:visited {
+.dashboard a.connect-devices-header-link.log-activity-btn:visited {
+    color: #e8e8ea;
+}
+
+.dashboard a.connect-devices-header-link.log-activity-btn:hover {
+    background-color: #4a4a4f;
+    border-color: #6e6e73;
     color: #ffffff;
+}
+
+.dashboard a.connect-devices-header-link.log-activity-btn:focus-visible {
+    outline: 2px solid #7eb8ff;
+    outline-offset: 2px;
 }
 
 .connect-devices-content {
@@ -239,6 +271,10 @@ button {
 
 .connect-devices-actions {
     margin-top: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
 }
 
 .connect-devices-status:not(:empty) {
@@ -268,17 +304,22 @@ button {
     border-radius: 6px;
     font-size: 13px;
     font-weight: 500;
-    background-color: #0e639c;
-    color: #ffffff;
-    border: 1px solid #1177bb;
 }
 
-.dashboard .log-activity-btn:hover {
-    background-color: #1177bb;
+.dashboard button.log-activity-btn {
+    background-color: #1f6b45;
+    color: #f4fcf7;
+    border: 1px solid #2a8556;
 }
 
-.dashboard a.log-activity-btn:hover {
-    color: #ffffff;
+.dashboard button.log-activity-btn:hover {
+    background-color: #258550;
+    border-color: #319f62;
+}
+
+.dashboard button.log-activity-btn:focus-visible {
+    outline: 2px solid #6fdc9b;
+    outline-offset: 2px;
 }
 
 .dashboard .header-tab .logout {
