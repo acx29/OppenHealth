@@ -21,11 +21,12 @@
     <main class="dashboard-main connect-devices-main">
         <section class="connect-devices-content" aria-labelledby="pageHeading">
             <h2 id="pageHeading" class="section-title">Wearables &amp; apps</h2>
-            <p class="section-hint">Garmin does not offer a public activity API for third-party apps. We plan to sync via GarminDB on the server (secure credentials and scheduled jobs)—not from your browser.</p>
+            <p class="section-hint">Connect Strava or WHOOP to sync activities. Both use OAuth; tokens stay on the server—we will wire the official APIs next.</p>
             <div class="connect-devices-actions">
-                <button type="button" class="log-activity-btn" id="connectGarminBtn">Connect Garmin</button>
+                <button type="button" class="log-activity-btn" id="connectStravaBtn">Connect Strava</button>
+                <button type="button" class="log-activity-btn" id="connectWhoopBtn">Connect WHOOP</button>
             </div>
-            <p class="connect-devices-status" id="garminStatus" role="status" aria-live="polite"></p>
+            <p class="connect-devices-status" id="integrationStatus" role="status" aria-live="polite"></p>
         </section>
     </main>
 
