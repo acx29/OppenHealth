@@ -11,13 +11,24 @@ const supabase = createClient( // this is the supabase object so we can call the
     process.env.SUPABASE_SERVICE_ROLE_KEY //
 );
 
+// Where confirmation emails should send the user back to, based on the environment the request came
+// from. Dev signups -> http://localhost:3000, prod signups -> https://oppenhealth.com. Supabase only
+// honors values matching the Redirect URLs allowlist, so this can't become an open redirect.
+function siteOrigin(req) {
+    return req.headers.origin
+        || (req.get("host") ? `${req.protocol}://${req.get("host")}` : null)
+        || process.env.SITE_URL
+        || "https://oppenhealth.com";
+}
+
 // 'signup' has NOTHING to do with signUp.html. This is just the backend version of the method u were doing earlier
 router.post("/signup", async (req, res) => {
     const { email, password } = req.body; // assigning email, password variables to whatever is in req.body
     
     const { data, error } = await supabase.auth.signUp({
-        email: email, 
-        password: password
+        email: email,
+        password: password,
+        options: { emailRedirectTo: `${siteOrigin(req)}/signIn` } // confirm link returns to the same environment
     });
  
     if (error) {
@@ -37,7 +48,7 @@ router.post("/signup", async (req, res) => {
                 id: userId, // setting null because it hasnt prompted user yet
                 name: null,
                 username: null,
-                setup_complete: false
+                setup_complete: false // the first time the user signs up, they are not complete
             }
         ]);
 
@@ -82,7 +93,8 @@ router.post("/resend-confirmation", async (req, res) => { // resend email confir
     
     const { data, error} = await supabase.auth.resend({
         type: "signup",
-        email: email
+        email: email,
+        options: { emailRedirectTo: `${siteOrigin(req)}/signIn` } // keep resent links pointing at the same environment
     }); // attempting to run the func and then seeing if theres an error not
 
     if(error) {
