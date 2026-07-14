@@ -36,21 +36,24 @@ body {
     background-size: cover;
     background-position: center;
     align-items: center;
-    justify-content: flex-start;
-    min-height: 100vh;
-    padding: clamp(64px, 14vh, 140px) 24px 24px;
+    justify-content: center; /* vertically centered hero — no giant top padding */
+    height: 100dvh; /* exactly one viewport tall... */
+    overflow: hidden; /* ...and nothing to scroll */
+    box-sizing: border-box;
+    padding: 24px;
 }
 
 .home-hero {
     width: min(880px, 92vw);
     text-align: center;
     color: #ffffff;
-    background: rgba(20, 22, 26, 0.58);
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(15, 17, 21, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 16px;
     padding: 34px 28px;
-    backdrop-filter: blur(1.5px);
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+    -webkit-backdrop-filter: blur(14px) saturate(1.3); /* real frosted glass (Safari) */
+    backdrop-filter: blur(14px) saturate(1.3); /* real frosted glass — 1.5px was barely visible */
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.22);
 }
 
 .home-title {
@@ -61,7 +64,8 @@ body {
 }
 
 .home-copy {
-    margin: 0;
+    margin: 0 auto;
+    max-width: 58ch; /* keeps line length readable inside the wide card */
     font-size: 1.02rem;
     line-height: 1.7;
     color: rgba(255, 255, 255, 0.94);
@@ -82,12 +86,12 @@ body {
     background: rgba(101, 193, 255, 0.72);
     border: 1px solid rgba(255, 255, 255, 0.42);
     color: #ffffff;
-    transition: transform 0.15s ease, background-color 0.15s ease;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
 }
 
 .home-signup-btn:hover {
-    transform: translateY(-1px);
-    background: rgba(101, 193, 255, 0.88);
+    background: rgba(101, 193, 255, 0.88); /* flat hover — kept your blue, dropped the lift */
 }
 
 .home-signin-text {
