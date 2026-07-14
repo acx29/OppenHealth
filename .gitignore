@@ -2,3 +2,5 @@
 .env
 node_modules/
 CLAUDE.md
+user_profiles.sql
+workouts_table.sql

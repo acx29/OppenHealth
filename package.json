@@ -1,27 +1,19 @@
 {
-  "dependencies": {
-    "@supabase/supabase-js": "^2.98.0",
-    "cookie-parser": "^1.4.7",
-    "dotenv": "^17.3.1",
-    "express": "^5.2.1"
-  },
   "name": "oppenhealth",
-  "version": "1.0.0",
-  "description": "Redifining health tracking.",
-  "main": "index.js",
+  "version": "2.0.0",
+  "description": "Redefining health tracking.",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev:api": "npm run start:dev --workspace @oppenhealth/api",
+    "dev:web": "npm run dev --workspace @oppenhealth/web",
+    "build": "npm run build --workspaces"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/acx29/OppenHealth.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "module",
-  "bugs": {
-    "url": "https://github.com/acx29/OppenHealth/issues"
-  },
-  "homepage": "https://github.com/acx29/OppenHealth#readme"
+  "license": "ISC"
 }

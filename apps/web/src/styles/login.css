@@ -1,0 +1,341 @@
+/* Login v2 — ported from OppenHealthJustLogin/login/OppenHealth Login v2.html.
+   The mockup styled <body> directly; here those rules live on .login so the
+   dashboard (and future routes) aren't affected. */
+
+:root {
+  --bg: #f4f6f9;
+  --panel: #fbfcfe;
+  --panel-2: #f1f4f8;
+  --text: oklch(0.26 0.035 252);
+  --text-2: oklch(0.26 0.035 252 / 0.62);
+  --text-3: oklch(0.26 0.035 252 / 0.42);
+  --line: oklch(0.26 0.035 252 / 0.10);
+  --line-2: oklch(0.26 0.035 252 / 0.18);
+  --field: oklch(0.26 0.035 252 / 0.03);
+  --field-focus: #ffffff;
+  --accent: oklch(0.52 0.09 252);
+  --accent-ring: oklch(0.52 0.09 252 / 0.22);
+  --danger: oklch(0.56 0.16 25);
+  --sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --mono: 'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+.login {
+  height: 100dvh;
+  background: url('../assets/backdrop-alps.jpg') center 62% / cover no-repeat fixed var(--bg);
+  color: var(--text);
+  overflow: hidden;
+}
+
+.shell {
+  height: 100%;
+  display: grid;
+  grid-template-columns: minmax(440px, 0.82fr) 1.18fr;
+}
+
+/* ---------- Left: form panel ---------- */
+.pane {
+  position: relative;
+  background: oklch(0.99 0.002 252 / 0.72);
+  -webkit-backdrop-filter: saturate(1.1);
+  backdrop-filter: saturate(1.1);
+  border-right: 1px solid oklch(1 0 0 / 0.35);
+  display: flex;
+  flex-direction: column;
+  padding: 40px 56px;
+  overflow-y: auto;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  position: relative;
+  z-index: 1;
+}
+.brand .word {
+  font-size: 16px;
+  font-weight: 450;
+  letter-spacing: -0.012em;
+  color: oklch(0.26 0 0 / 0.42); /* whole wordmark in the lighter gray that "Health" used to have */
+}
+.brand .word b { font-weight: 450; }
+.brand .word span { color: inherit; font-weight: inherit; }
+
+.form-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  padding: 36px 0;
+}
+.form-inner { width: 100%; max-width: 360px; margin: 0 auto; }
+
+h1.title {
+  font-size: 27px;
+  line-height: 1.12;
+  font-weight: 600;
+  letter-spacing: -0.022em;
+  margin-bottom: 9px;
+}
+.subtitle {
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--text-2);
+  margin-bottom: 30px;
+}
+
+/* SSO row */
+.sso-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.btn {
+  -webkit-appearance: none; appearance: none;
+  border: none; cursor: pointer;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.006em;
+  border-radius: 10px;
+  transition: background .16s ease, border-color .16s ease, transform .12s ease, box-shadow .16s ease, color .16s ease;
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 9px;
+}
+.btn:active { transform: translateY(0.5px); }
+
+.btn-ghost {
+  background: var(--field);
+  border: 1px solid var(--line);
+  color: var(--text);
+  height: 44px;
+}
+.btn-ghost:hover { background: oklch(0.26 0.035 252 / 0.06); border-color: var(--line-2); }
+.btn-ghost svg, .btn-ghost img { width: 17px; height: 17px; }
+
+.divider {
+  display: flex; align-items: center; gap: 14px;
+  margin: 22px 0;
+  color: var(--text-3);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+.divider::before, .divider::after {
+  content: ""; height: 1px; flex: 1; background: var(--line);
+}
+
+/* Fields */
+.field { margin-bottom: 16px; }
+.field-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  margin-bottom: 7px;
+}
+label.lbl {
+  font-size: 13px;
+  font-weight: 450;
+  color: var(--text-2);
+  letter-spacing: -0.004em;
+}
+.link {
+  font-size: 12.5px;
+  color: var(--text-2);
+  text-decoration: none;
+  transition: color .15s ease;
+}
+.link:hover { color: var(--text); }
+
+.input-wrap { position: relative; }
+.input {
+  width: 100%;
+  height: 46px;
+  background: var(--field);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 14.5px;
+  letter-spacing: -0.006em;
+  padding: 0 14px;
+  transition: border-color .15s ease, background .15s ease, box-shadow .15s ease;
+  outline: none;
+}
+.input::placeholder { color: var(--text-3); }
+.input:hover { border-color: var(--line-2); }
+.input:focus {
+  border-color: var(--accent);
+  background: var(--field-focus);
+  box-shadow: 0 0 0 3px var(--accent-ring);
+}
+.input.has-btn { padding-right: 44px; }
+.input.invalid {
+  border-color: color-mix(in oklch, var(--danger) 70%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--danger) 18%, transparent);
+}
+
+.reveal {
+  position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+  width: 34px; height: 34px;
+  display: grid; place-items: center;
+  background: transparent; border: none; cursor: pointer;
+  color: var(--text-3); border-radius: 7px;
+  transition: color .15s ease, background .15s ease;
+}
+.reveal:hover { color: var(--text-2); background: oklch(0.26 0.035 252 / 0.05); }
+.reveal svg { width: 17px; height: 17px; }
+
+.err {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12.5px; color: var(--danger);
+  margin-top: 7px;
+  letter-spacing: -0.003em;
+}
+.err svg { width: 13px; height: 13px; flex: none; }
+
+/* checkbox row */
+.row-between { display: flex; align-items: center; justify-content: space-between; margin: 4px 0 24px; }
+.check {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-size: 13px; color: var(--text-2); cursor: pointer; user-select: none;
+}
+.check input { position: absolute; opacity: 0; pointer-events: none; }
+.box {
+  width: 17px; height: 17px; border-radius: 5px;
+  border: 1px solid var(--line-2);
+  background: var(--field);
+  display: grid; place-items: center;
+  transition: background .15s ease, border-color .15s ease;
+}
+.box svg { width: 11px; height: 11px; opacity: 0; transform: scale(0.7); transition: opacity .12s ease, transform .12s ease; color: #ffffff; }
+.check input:checked + .box { background: var(--text); border-color: var(--text); }
+.check input:checked + .box svg { opacity: 1; transform: scale(1); }
+.check input:focus-visible + .box { box-shadow: 0 0 0 3px var(--accent-ring); }
+
+/* primary */
+.btn-primary {
+  width: 100%;
+  height: 46px;
+  background: oklch(0.30 0.05 252);
+  color: #fbfcfe;
+  font-weight: 550;
+  font-size: 14.5px;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary:hover { background: oklch(0.25 0.05 252); }
+.btn-primary:disabled { cursor: default; }
+.btn-primary.loading { color: transparent; }
+.btn-primary.success { background: oklch(0.55 0.12 150); color: #ffffff; }
+.btn-primary svg.arr { width: 16px; height: 16px; transition: transform .18s ease; }
+.btn-primary:hover svg.arr { transform: translateX(2px); }
+
+.spinner {
+  position: absolute; inset: 0; margin: auto;
+  width: 18px; height: 18px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin .6s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.alt {
+  margin-top: 26px;
+  text-align: center;
+  font-size: 13.5px;
+  color: var(--text-2);
+}
+.alt a { color: var(--text); text-decoration: none; font-weight: 500; border-bottom: 1px solid var(--line-2); padding-bottom: 1px; transition: border-color .15s ease; }
+.alt a:hover { border-color: var(--text); }
+
+.pane-foot {
+  position: relative; z-index: 1;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px;
+  font-size: 12px; color: var(--text-3);
+}
+.pane-foot .legal { display: flex; gap: 16px; }
+.pane-foot a { color: var(--text-3); text-decoration: none; transition: color .15s ease; }
+.pane-foot a:hover { color: var(--text-2); }
+
+/* ---------- Right: image pane ---------- */
+.visual {
+  position: relative;
+  background: transparent;
+  overflow: hidden;
+}
+.visual .img {
+  display: none;
+  position: absolute; inset: 0;
+  background: url('../assets/backdrop-alps.jpg') center 62% / cover no-repeat;
+}
+.visual .scrim {
+  position: absolute; inset: 0;
+  background: oklch(0.30 0.06 252 / 0.28);
+}
+.visual-content {
+  position: absolute;
+  left: 56px; right: 56px; bottom: 52px;
+  z-index: 2;
+}
+.visual .v-eyebrow {
+  font-family: var(--mono);
+  font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: rgba(255,255,255,0.72);
+  margin-bottom: 18px;
+}
+.visual h2 {
+  font-size: clamp(26px, 2.5vw, 36px);
+  line-height: 1.16;
+  font-weight: 500;
+  letter-spacing: -0.026em;
+  max-width: 19ch;
+  color: rgba(255,255,255,0.96);
+}
+.visual h2 .hl {
+  color: oklch(0.87 0.09 210);
+}
+.visual .v-sub {
+  margin-top: 16px;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: rgba(255,255,255,0.78);
+  max-width: 48ch;
+}
+.v-top {
+  position: absolute; top: 40px; right: 56px; z-index: 2;
+  display: flex; align-items: center; gap: 18px;
+  font-size: 13px; color: oklch(0.35 0.05 252 / 0.65);
+}
+.v-top a { color: oklch(0.30 0.05 252 / 0.8); text-decoration: none; transition: color .15s; }
+.v-top a:hover { color: oklch(0.22 0.05 252); }
+
+/* ---------- responsive ---------- */
+@media (max-width: 860px) {
+  .login { overflow: auto; height: auto; min-height: 100dvh; }
+  .shell { grid-template-columns: 1fr; min-height: 100%; }
+  .visual { display: none; }
+  .pane {
+    border-right: none;
+    min-height: 100vh;
+    background:
+      linear-gradient(rgba(251,252,254,0.6), rgba(251,252,254,0.6)),
+      url('../assets/backdrop-alps.jpg') center / cover fixed;
+  }
+}
+@media (max-width: 520px) {
+  .pane { padding: 28px 22px; }
+  .sso-row { grid-template-columns: 1fr; }
+  .pane-foot { flex-direction: column-reverse; align-items: flex-start; gap: 12px; }
+}
+
+.fade-in { animation: fadeUp .5s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* shake on error */
+.shake { animation: shake .4s cubic-bezier(.36,.07,.19,.97); }
+@keyframes shake {
+  10%,90% { transform: translateX(-1px); }
+  20%,80% { transform: translateX(2px); }
+  30%,50%,70% { transform: translateX(-4px); }
+  40%,60% { transform: translateX(4px); }
+}

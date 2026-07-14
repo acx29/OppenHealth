@@ -1,0 +1,23 @@
+/* App-wide baseline (the reset + typography the mockups assumed on <body>) */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #root { height: 100%; }
+
+body {
+  font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  background: #f4f6f9;
+  color: oklch(0.26 0.035 252);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---- Dashboard stub (port of dashboard-stub.html) ---- */
+
+.stub-screen { min-height: 100%; display: grid; place-items: center; }
+
+.stub-card { text-align: center; }
+.stub-card h1 { font-size: 22px; font-weight: 600; margin-bottom: 8px; }
+.stub-card p { color: oklch(0.26 0.035 252 / 0.6); font-size: 14.5px; }
+.stub-card a { color: oklch(0.52 0.09 252); }
+.stub-card a:hover { color: oklch(0.42 0.09 252); }

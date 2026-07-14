@@ -1,0 +1,50 @@
+/** Thin fetch wrapper for the NestJS API. All errors surface as ApiError with a clean message. */
+
+export class ApiError extends Error {
+    constructor(
+        public readonly status: number,
+        message: string
+    ) {
+        super(message);
+        this.name = "ApiError";
+    }
+}
+
+async function request<T>(path: string, init?: RequestInit): Promise<T> {
+    let res: Response;
+
+    try {
+        res = await fetch(path, {
+            headers: { "Content-Type": "application/json" },
+            credentials: "same-origin", // send/receive the httpOnly auth cookie
+            ...init
+        });
+    } catch {
+        throw new ApiError(0, "Network error. Try again.");
+    }
+
+    const body = res.status === 204 ? null : await res.json().catch(() => null);
+
+    if (!res.ok) {
+        const message =
+            body && typeof body.message === "string"
+                ? body.message
+                : "Something went wrong. Try again.";
+        throw new ApiError(res.status, message);
+    }
+
+    return body as T;
+}
+
+export const api = {
+    login: (email: string, password: string) =>
+        request<{ message: string }>("/api/login", {
+            method: "POST",
+            body: JSON.stringify({ email, password })
+        }),
+
+    logout: () => request<{ message: string }>("/api/logout", { method: "POST" }),
+
+    /** Session check — resolves with the user if the auth cookie is valid, throws 401 otherwise. */
+    me: () => request<{ id: string; email: string }>("/api/me")
+};
