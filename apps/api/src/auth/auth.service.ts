@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable, Logger } from "@nestjs/common";
 import { SupabaseService } from "../supabase/supabase.service";
 
 /**
@@ -8,7 +8,16 @@ import { SupabaseService } from "../supabase/supabase.service";
  */
 @Injectable()
 export class AuthService {
+    private readonly logger = new Logger(AuthService.name);
+
     constructor(private readonly supabase: SupabaseService) {}
+
+    /** Supabase auth errors sometimes carry empty/garbled messages — log the whole thing server-side. */
+    private logAuthError(action: string, error: { name?: string; status?: number; code?: string; message?: string }) {
+        this.logger.error(
+            `${action} failed — name=${error.name} status=${error.status} code=${(error as any).code} message=${error.message} raw=${JSON.stringify(error)}`
+        );
+    }
 
     async signUp(email: string, password: string, siteOrigin: string) {
         if (!email || !password) {
@@ -83,6 +92,7 @@ export class AuthService {
         });
 
         if (error) {
+            this.logAuthError("resend-confirmation", error);
             throw new BadRequestException(error.message);
         }
 
