@@ -3,19 +3,19 @@
    dashboard (and future routes) aren't affected. */
 
 :root {
-  --bg: #f4f6f9;
-  --panel: #fbfcfe;
-  --panel-2: #f1f4f8;
-  --text: oklch(0.26 0.035 252);
-  --text-2: oklch(0.26 0.035 252 / 0.62);
-  --text-3: oklch(0.26 0.035 252 / 0.42);
-  --line: oklch(0.26 0.035 252 / 0.10);
-  --line-2: oklch(0.26 0.035 252 / 0.18);
-  --field: oklch(0.26 0.035 252 / 0.03);
-  --field-focus: #ffffff;
-  --accent: oklch(0.52 0.09 252);
-  --accent-ring: oklch(0.52 0.09 252 / 0.22);
-  --danger: oklch(0.56 0.16 25);
+  --bg: #0c0e12;
+  --panel: #10131a;
+  --panel-2: #161a22;
+  --text: oklch(0.96 0.008 252);
+  --text-2: oklch(0.96 0.008 252 / 0.64);
+  --text-3: oklch(0.96 0.008 252 / 0.44);
+  --line: oklch(1 0 0 / 0.12);
+  --line-2: oklch(1 0 0 / 0.22);
+  --field: oklch(1 0 0 / 0.05);
+  --field-focus: oklch(1 0 0 / 0.09);
+  --accent: oklch(0.72 0.09 252);
+  --accent-ring: oklch(0.72 0.09 252 / 0.25);
+  --danger: oklch(0.70 0.16 25);
   --sans: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   --display: 'Stack Sans Notch', 'Instrument Sans', sans-serif; /* headers only */
   --mono: 'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
@@ -37,10 +37,10 @@
 /* ---------- Left: form panel ---------- */
 .pane {
   position: relative;
-  background: oklch(0.99 0.002 252 / 0.72);
+  background: oklch(0.13 0.015 252 / 0.72);
   -webkit-backdrop-filter: saturate(1.1);
   backdrop-filter: saturate(1.1);
-  border-right: 1px solid oklch(1 0 0 / 0.35);
+  border-right: 1px solid oklch(1 0 0 / 0.14);
   display: flex;
   flex-direction: column;
   padding: 40px 56px;
@@ -58,7 +58,7 @@
   font-size: 16px;
   font-weight: 450;
   letter-spacing: -0.012em;
-  color: oklch(0.26 0 0 / 0.42); /* whole wordmark in the lighter gray that "Health" used to have */
+  color: oklch(1 0 0 / 0.5); /* whole wordmark in the lighter gray that "Health" used to have */
 }
 .brand .word b { font-weight: 450; }
 .brand .word span { color: inherit; font-weight: inherit; }
@@ -111,7 +111,7 @@ h1.title {
   color: var(--text);
   height: 44px;
 }
-.btn-ghost:hover { background: oklch(0.26 0.035 252 / 0.06); border-color: var(--line-2); }
+.btn-ghost:hover { background: oklch(1 0 0 / 0.09); border-color: var(--line-2); }
 .btn-ghost svg, .btn-ghost img { width: 17px; height: 17px; }
 
 .divider {
@@ -181,7 +181,7 @@ label.lbl {
   color: var(--text-3); border-radius: 7px;
   transition: color .15s ease, background .15s ease;
 }
-.reveal:hover { color: var(--text-2); background: oklch(0.26 0.035 252 / 0.05); }
+.reveal:hover { color: var(--text-2); background: oklch(1 0 0 / 0.08); }
 .reveal svg { width: 17px; height: 17px; }
 
 .err {
@@ -206,7 +206,7 @@ label.lbl {
   display: grid; place-items: center;
   transition: background .15s ease, border-color .15s ease;
 }
-.box svg { width: 11px; height: 11px; opacity: 0; transform: scale(0.7); transition: opacity .12s ease, transform .12s ease; color: #ffffff; }
+.box svg { width: 11px; height: 11px; opacity: 0; transform: scale(0.7); transition: opacity .12s ease, transform .12s ease; color: oklch(0.15 0.02 252); }
 .check input:checked + .box { background: var(--text); border-color: var(--text); }
 .check input:checked + .box svg { opacity: 1; transform: scale(1); }
 .check input:focus-visible + .box { box-shadow: 0 0 0 3px var(--accent-ring); }
@@ -215,15 +215,15 @@ label.lbl {
 .btn-primary {
   width: 100%;
   height: 46px;
-  background: oklch(0.30 0.05 252);
-  color: #fbfcfe;
+  background: oklch(0.96 0.008 252);
+  color: oklch(0.21 0.035 252);
   font-weight: 550;
   font-size: 14.5px;
   border-radius: 10px;
   position: relative;
   overflow: hidden;
 }
-.btn-primary:hover { background: oklch(0.25 0.05 252); }
+.btn-primary:hover { background: #ffffff; }
 .btn-primary:disabled { cursor: default; }
 .btn-primary.loading { color: transparent; }
 .btn-primary.success { background: oklch(0.55 0.12 150); color: #ffffff; }
@@ -233,8 +233,8 @@ label.lbl {
 .spinner {
   position: absolute; inset: 0; margin: auto;
   width: 18px; height: 18px;
-  border: 2px solid rgba(255,255,255,0.3);
-  border-top-color: #ffffff;
+  border: 2px solid oklch(0.21 0.035 252 / 0.25);
+  border-top-color: oklch(0.21 0.035 252);
   border-radius: 50%;
   animation: spin .6s linear infinite;
 }
@@ -295,7 +295,7 @@ label.lbl {
   color: rgba(255,255,255,0.96);
 }
 .visual h2 .hl {
-  color: oklch(0.87 0.09 210);
+  color: oklch(0.34 0.12 252);
 }
 .visual .v-sub {
   margin-top: 16px;
@@ -307,10 +307,10 @@ label.lbl {
 .v-top {
   position: absolute; top: 40px; right: 56px; z-index: 2;
   display: flex; align-items: center; gap: 18px;
-  font-size: 13px; color: oklch(0.35 0.05 252 / 0.65);
+  font-size: 13px; color: rgba(255,255,255,0.6);
 }
-.v-top a { color: oklch(0.30 0.05 252 / 0.8); text-decoration: none; transition: color .15s; }
-.v-top a:hover { color: oklch(0.22 0.05 252); }
+.v-top a { color: rgba(255,255,255,0.75); text-decoration: none; transition: color .15s; }
+.v-top a:hover { color: rgba(255,255,255,0.95); }
 
 /* ---------- responsive ---------- */
 @media (max-width: 860px) {
@@ -321,7 +321,7 @@ label.lbl {
     border-right: none;
     min-height: 100vh;
     background:
-      linear-gradient(rgba(251,252,254,0.6), rgba(251,252,254,0.6)),
+      linear-gradient(rgba(12,14,18,0.6), rgba(12,14,18,0.6)),
       url('../assets/backdrop-alps.jpg') center / cover fixed;
   }
 }
