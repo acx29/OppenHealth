@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Link } from "react-router-dom";
 import "../styles/login.css";
 
 /** Shared split-pane frame for auth pages: brand + form pane left, marketing visual right. */
@@ -16,7 +17,7 @@ export default function AuthShell({ children }: { children: ReactNode }) {
                     <div className="pane-foot">
                         <div className="legal">
                             <a href="#" onClick={e => e.preventDefault()}>Terms</a>
-                            <a href="#" onClick={e => e.preventDefault()}>Privacy</a>
+                            <Link to="/privacy">Privacy</Link>
                             <a href="#" onClick={e => e.preventDefault()}>Support</a>
                         </div>
                     </div>

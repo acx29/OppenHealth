@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
+import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
 import RequireAuth from "./components/RequireAuth";
 import RedirectIfAuthed from "./components/RedirectIfAuthed";
@@ -34,6 +35,8 @@ export default function App() {
                     </RequireAuth>
                 }
             />
+            {/* public document pages — no auth gate in either direction */}
+            <Route path="/privacy" element={<Privacy />} />
             {/* anything unknown is honestly a 404 — no silent teleport */}
             <Route path="*" element={<NotFound />} />
         </Routes>

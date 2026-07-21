@@ -13,6 +13,33 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* ---- Document pages (privacy policy, future terms) ---- */
+
+.doc-screen { min-height: 100%; padding: 56px 24px; }
+
+.doc { max-width: 680px; margin: 0 auto; }
+.doc-back {
+  display: inline-block;
+  margin-bottom: 28px;
+  font-size: 13.5px;
+  color: oklch(0.26 0.035 252 / 0.62);
+  text-decoration: none;
+}
+.doc-back:hover { color: oklch(0.26 0.035 252); }
+.doc h1 {
+  font-family: 'Stack Sans Notch', 'Instrument Sans', sans-serif;
+  font-size: 28px;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+.doc-meta { font-size: 13px; color: oklch(0.26 0.035 252 / 0.42); margin-bottom: 28px; }
+.doc h2 { font-size: 17px; font-weight: 600; margin: 26px 0 8px; letter-spacing: -0.012em; }
+.doc p, .doc li { font-size: 14.5px; line-height: 1.65; color: oklch(0.26 0.035 252 / 0.78); }
+.doc p + p { margin-top: 10px; }
+.doc ul { padding-left: 20px; margin: 8px 0; }
+.doc li { margin-bottom: 6px; }
+.doc b { color: oklch(0.26 0.035 252); font-weight: 600; }
+
 /* ---- Dashboard stub (port of dashboard-stub.html) ---- */
 
 .stub-screen { min-height: 100%; display: grid; place-items: center; }
