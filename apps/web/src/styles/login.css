@@ -16,7 +16,8 @@
   --accent: oklch(0.52 0.09 252);
   --accent-ring: oklch(0.52 0.09 252 / 0.22);
   --danger: oklch(0.56 0.16 25);
-  --sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --sans: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --display: 'Stack Sans Notch', 'Instrument Sans', sans-serif; /* headers only */
   --mono: 'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 }
 
@@ -74,6 +75,7 @@
 .form-inner { width: 100%; max-width: 360px; margin: 0 auto; }
 
 h1.title {
+  font-family: var(--display);
   font-size: 27px;
   line-height: 1.12;
   font-weight: 600;
@@ -284,6 +286,7 @@ label.lbl {
   margin-bottom: 18px;
 }
 .visual h2 {
+  font-family: var(--display);
   font-size: clamp(26px, 2.5vw, 36px);
   line-height: 1.16;
   font-weight: 500;

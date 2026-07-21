@@ -43,6 +43,18 @@ export const api = {
             body: JSON.stringify({ email, password })
         }),
 
+    signup: (email: string, password: string) =>
+        request<unknown>("/api/signup", {
+            method: "POST",
+            body: JSON.stringify({ email, password })
+        }),
+
+    resendConfirmation: (email: string) =>
+        request<{ message: string }>("/api/resend-confirmation", {
+            method: "POST",
+            body: JSON.stringify({ email })
+        }),
+
     logout: () => request<{ message: string }>("/api/logout", { method: "POST" }),
 
     /** Session check — resolves with the user if the auth cookie is valid, throws 401 otherwise. */

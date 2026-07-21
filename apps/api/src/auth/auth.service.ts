@@ -27,11 +27,18 @@ export class AuthService {
         const { data, error } = await this.supabase.client.auth.signUp({
             email,
             password,
-            options: { emailRedirectTo: `${siteOrigin}/signin` } // confirm link returns to the same environment
+            options: { emailRedirectTo: `${siteOrigin}/login` } // confirm link returns to the same environment
         });
 
         if (error) {
             throw new BadRequestException(error.message);
+        }
+
+        // Supabase anti-enumeration: signing up an existing email returns a decoy user with
+        // no identities instead of an error. Detect it here instead of letting the
+        // user_profiles insert blow up with an FK violation (the v1 prod bug).
+        if (data.user && (!data.user.identities || data.user.identities.length === 0)) {
+            throw new BadRequestException("That email is already registered. Try logging in.");
         }
 
         const userId = data.user?.id;
@@ -88,7 +95,7 @@ export class AuthService {
         const { error } = await this.supabase.client.auth.resend({
             type: "signup",
             email,
-            options: { emailRedirectTo: `${siteOrigin}/signin` }
+            options: { emailRedirectTo: `${siteOrigin}/login` }
         });
 
         if (error) {

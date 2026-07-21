@@ -1,15 +1,41 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import SignIn from "./pages/SignIn";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
+import NotFound from "./pages/NotFound";
+import RequireAuth from "./components/RequireAuth";
+import RedirectIfAuthed from "./components/RedirectIfAuthed";
 
 export default function App() {
     return (
         <Routes>
-            <Route path="/" element={<Navigate to="/signin" replace />} />
-            <Route path="/signin" element={<SignIn />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            {/* anything unknown lands on the login */}
-            <Route path="*" element={<Navigate to="/signin" replace />} />
+            <Route path="/" element={<Navigate to="/login" replace />} />
+            <Route
+                path="/login"
+                element={
+                    <RedirectIfAuthed>
+                        <Login />
+                    </RedirectIfAuthed>
+                }
+            />
+            <Route
+                path="/signup"
+                element={
+                    <RedirectIfAuthed>
+                        <SignUp />
+                    </RedirectIfAuthed>
+                }
+            />
+            <Route
+                path="/dashboard"
+                element={
+                    <RequireAuth>
+                        <Dashboard />
+                    </RequireAuth>
+                }
+            />
+            {/* anything unknown is honestly a 404 — no silent teleport */}
+            <Route path="*" element={<NotFound />} />
         </Routes>
     );
 }
