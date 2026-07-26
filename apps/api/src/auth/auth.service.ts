@@ -24,7 +24,7 @@ export class AuthService {
             throw new BadRequestException("Email and password are required.");
         }
 
-        const { data, error } = await this.supabase.client.auth.signUp({
+        const { data, error } = await this.supabase.newAuthClient().auth.signUp({
             email,
             password,
             options: { emailRedirectTo: `${siteOrigin}/login` } // confirm link returns to the same environment
@@ -69,7 +69,7 @@ export class AuthService {
 
     /** Returns the Supabase access token (JWT); the controller turns it into the cookie. */
     async signIn(email: string, password: string): Promise<string> {
-        const { data, error } = await this.supabase.client.auth.signInWithPassword({
+        const { data, error } = await this.supabase.newAuthClient().auth.signInWithPassword({
             email,
             password
         });
@@ -92,7 +92,7 @@ export class AuthService {
             throw new BadRequestException("Email is required.");
         }
 
-        const { error } = await this.supabase.client.auth.resend({
+        const { error } = await this.supabase.newAuthClient().auth.resend({
             type: "signup",
             email,
             options: { emailRedirectTo: `${siteOrigin}/login` }

@@ -342,3 +342,21 @@ label.lbl {
   30%,50%,70% { transform: translateX(-4px); }
   40%,60% { transform: translateX(4px); }
 }
+
+/* ---------- Onboarding form ---------- */
+select.input {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+select.input option { background: var(--panel); color: var(--text); }
+textarea.input {
+  height: auto;
+  min-height: 96px;
+  padding: 12px 14px;
+  resize: vertical;
+  line-height: 1.5;
+}
+input[type="date"].input { color-scheme: dark; } /* dark-theme native date picker */
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.chips { display: flex; flex-wrap: wrap; gap: 10px 16px; padding: 4px 0 2px; }

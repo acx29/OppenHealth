@@ -23,3 +23,16 @@ alter table public.user_profiles
 alter table public.user_profiles
   add constraint user_profiles_id_fkey
   foreign key (id) references auth.users (id) on delete cascade;
+
+-- v2 onboarding (run 2026-07): coach onboarding fields + onboarding timestamp.
+-- Stable, query-worthy facts are real columns; fluid onboarding answers (activity level,
+-- sports, goals, future questions) live in the onboarding jsonb and get promoted to
+-- columns if/when they stabilize. onboarded_at replaces setup_complete (kept while
+-- v1 is still live on main; drop it when v1 retires): null = onboarding not done,
+-- a timestamp = done + when (lets us re-prompt old onboardings after future form changes).
+alter table public.user_profiles
+  add column if not exists dob date,
+  add column if not exists height_cm numeric,
+  add column if not exists weight_kg numeric,
+  add column if not exists onboarding jsonb not null default '{}',
+  add column if not exists onboarded_at timestamptz;

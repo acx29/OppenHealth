@@ -1,0 +1,146 @@
+/* Onboarding — standalone app page, light + minimal (Stripe/Airbnb-flavored).
+   Deliberately NOT the auth shell: no backdrop, no split pane. Brand fonts only:
+   Stack Sans Notch (display), Instrument Sans (body), Michroma (eyebrow accent). */
+
+.onboard-screen {
+  min-height: 100%;
+  background: #fafafa;
+  font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  color: #18181b;
+}
+
+.onboard-wrap {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 56px 24px 80px;
+}
+
+.onboard-brand {
+  font-size: 15px;
+  font-weight: 450;
+  color: #a1a1aa;
+  letter-spacing: -0.01em;
+  margin-bottom: 48px;
+}
+
+.onboard-eyebrow {
+  font-family: 'Michroma', sans-serif;
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #a1a1aa;
+  margin-bottom: 14px;
+}
+
+.onboard-title {
+  font-family: 'Stack Sans Notch', 'Instrument Sans', sans-serif;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+
+.onboard-sub {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: #71717a;
+  margin-bottom: 36px;
+}
+
+/* fields */
+.ob-field { margin-bottom: 22px; }
+.ob-field > label {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #3f3f46;
+  margin-bottom: 7px;
+}
+
+.ob-input {
+  width: 100%;
+  height: 44px;
+  background: #ffffff;
+  border: 1px solid #e4e4e7;
+  border-radius: 9px;
+  padding: 0 13px;
+  font-family: inherit;
+  font-size: 14.5px;
+  color: #18181b;
+  outline: none;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.ob-input::placeholder { color: #a1a1aa; }
+.ob-input:hover { border-color: #d4d4d8; }
+.ob-input:focus { border-color: #18181b; box-shadow: 0 0 0 3px rgba(24, 24, 27, 0.08); }
+.ob-input.invalid { border-color: #dc2626; box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.10); }
+
+select.ob-input { appearance: none; -webkit-appearance: none; cursor: pointer; }
+textarea.ob-input {
+  height: auto;
+  min-height: 96px;
+  padding: 11px 13px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.ob-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 480px) { .ob-row { grid-template-columns: 1fr; gap: 0; } }
+
+.ob-err { font-size: 12.5px; color: #dc2626; margin-top: 6px; }
+
+/* sport pills — Airbnb-style toggle chips */
+.ob-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.ob-pill {
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid #e4e4e7;
+  color: #3f3f46;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+.ob-pill:hover { border-color: #d4d4d8; }
+.ob-pill.on { background: #18181b; border-color: #18181b; color: #ffffff; }
+
+/* submit */
+.ob-btn {
+  width: 100%;
+  height: 46px;
+  margin-top: 10px;
+  background: #18181b;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 500;
+  position: relative;
+  transition: background .15s ease;
+}
+.ob-btn:hover { background: #27272a; }
+.ob-btn:disabled { cursor: default; }
+.ob-btn.loading { color: transparent; }
+.ob-btn.success { background: #16a34a; }
+
+.ob-spinner {
+  position: absolute; inset: 0; margin: auto;
+  width: 18px; height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: ob-spin .6s linear infinite;
+}
+@keyframes ob-spin { to { transform: rotate(360deg); } }
+
+.ob-shake { animation: ob-shake .4s cubic-bezier(.36,.07,.19,.97); }
+@keyframes ob-shake {
+  10%,90% { transform: translateX(-1px); }
+  20%,80% { transform: translateX(2px); }
+  30%,50%,70% { transform: translateX(-4px); }
+  40%,60% { transform: translateX(4px); }
+}

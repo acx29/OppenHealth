@@ -36,6 +36,26 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     return body as T;
 }
 
+export type Profile = {
+    id: string;
+    name: string | null;
+    username: string | null;
+    dob: string | null;
+    height_cm: number | null;
+    weight_kg: number | null;
+    onboarding: { activity_level?: string; sports?: string[]; goals?: string };
+    onboarded_at: string | null;
+};
+
+export type OnboardingPayload = {
+    dob: string;
+    height_cm: number;
+    weight_kg: number;
+    activity_level: string;
+    sports: string[];
+    goals: string;
+};
+
 export const api = {
     login: (email: string, password: string) =>
         request<{ message: string }>("/api/login", {
@@ -58,5 +78,13 @@ export const api = {
     logout: () => request<{ message: string }>("/api/logout", { method: "POST" }),
 
     /** Session check — resolves with the user if the auth cookie is valid, throws 401 otherwise. */
-    me: () => request<{ id: string; email: string }>("/api/me")
+    me: () => request<{ id: string; email: string }>("/api/me"),
+
+    profile: () => request<Profile>("/api/profile"),
+
+    saveOnboarding: (onboarding: OnboardingPayload) =>
+        request<Profile>("/api/profile/onboarding", {
+            method: "POST",
+            body: JSON.stringify(onboarding)
+        })
 };

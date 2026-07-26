@@ -20,7 +20,7 @@ export default function Privacy() {
                 <h2>What we collect</h2>
                 <ul>
                     <li><b>Account information</b> — your email address and a password. Your password is never stored in readable form; it is hashed by our authentication provider.</li>
-                    <li><b>Profile information</b> — an optional display name and username.</li>
+                    <li><b>Profile information</b> — an optional display name and username, plus coaching onboarding details you provide: date of birth, height, weight, activity level, sports, and training goals.</li>
                     <li><b>Training data</b> — workouts you log (sport, duration, distance, heart rate) and data from wearables and services you explicitly choose to connect (such as Strava or WHOOP).</li>
                 </ul>
 
