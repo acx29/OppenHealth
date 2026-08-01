@@ -1,4 +1,5 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
+import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
@@ -11,7 +12,8 @@ import RedirectIfAuthed from "./components/RedirectIfAuthed";
 export default function App() {
     return (
         <Routes>
-            <Route path="/" element={<Navigate to="/login" replace />} />
+            {/* public landing — no auth gate, renders with zero API dependency */}
+            <Route path="/" element={<Landing />} />
             <Route
                 path="/login"
                 element={
