@@ -74,6 +74,12 @@
     font-size: 1rem;
 }
 
-.landing-signin-text a {
-    color: #a5c8ff;
+/* v1 pins link and :visited to the same blue so links never look "already clicked" */
+.landing-signin-text a,
+.landing-signin-text a:visited {
+    color: #59a5f5;
+}
+
+.landing-signup-btn:visited {
+    color: #ffffff;
 }
