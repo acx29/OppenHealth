@@ -1,10 +1,13 @@
 import { useEffect, useState, type MouseEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../lib/api";
+import { useSessionActions } from "../hooks/useSession";
+import LoadingScreen from "../components/LoadingScreen";
 
 /** Still a stub — but it now routes un-onboarded users to the onboarding first. */
 export default function Dashboard() {
     const navigate = useNavigate();
+    const { markAnon } = useSessionActions();
     const [ready, setReady] = useState(false);
 
     useEffect(() => {
@@ -28,11 +31,12 @@ export default function Dashboard() {
         try {
             await api.logout(); // server clears the httpOnly cookie
         } finally {
+            markAnon(); // guards must stop trusting the old session before we land on /login
             navigate("/login", { replace: true });
         }
     };
 
-    if (!ready) return null;
+    if (!ready) return <LoadingScreen />;
 
     return (
         <main className="stub-screen">

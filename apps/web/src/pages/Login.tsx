@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { api, ApiError } from "../lib/api";
+import { useSessionActions } from "../hooks/useSession";
 import { GoogleG, I } from "../components/icons";
 import AuthShell from "../components/AuthShell";
 
@@ -9,6 +10,7 @@ type Errors = { email?: string; pw?: string };
 
 export default function Login() {
     const navigate = useNavigate();
+    const { markAuthed } = useSessionActions();
     const [email, setEmail] = useState("");
     const [pw, setPw] = useState("");
     const [show, setShow] = useState(false);
@@ -46,7 +48,12 @@ export default function Login() {
         try {
             await api.login(email.trim(), pw); // sets the httpOnly session cookie on success
             setStatus("success");
-            setTimeout(() => navigate("/dashboard"), 650);
+            // markAuthed inside the timeout: flipping it sooner would let RedirectIfAuthed
+            // bounce immediately and cut the "Authenticated" success beat short
+            setTimeout(() => {
+                markAuthed();
+                navigate("/dashboard");
+            }, 650);
         } catch (err) {
             setStatus("idle");
             setErrors({ pw: err instanceof ApiError ? err.message : "Something went wrong. Try again." });

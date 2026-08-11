@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 import { useSession } from "../hooks/useSession";
+import LoadingScreen from "./LoadingScreen";
 
 /**
  * Route guard for private pages: valid session renders the page, no session
@@ -9,7 +10,7 @@ import { useSession } from "../hooks/useSession";
 export default function RequireAuth({ children }: { children: ReactNode }) {
     const session = useSession();
 
-    if (session === "checking") return null;
+    if (session === "checking") return <LoadingScreen />;
     if (session === "anon") return <Navigate to="/login" replace />;
     return <>{children}</>;
 }

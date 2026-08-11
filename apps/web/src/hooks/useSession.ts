@@ -1,19 +1,15 @@
-import { useEffect, useState } from "react";
-import { api } from "../lib/api";
+import { useContext } from "react";
+import { SessionContext, type SessionState } from "../components/SessionProvider";
 
-export type SessionState = "checking" | "authed" | "anon";
+export type { SessionState };
 
-/** One-shot session probe: asks /api/me on mount, reports which side of the velvet rope you're on. */
+/** Reads the app-wide session state (probed once by SessionProvider). */
 export function useSession(): SessionState {
-    const [state, setState] = useState<SessionState>("checking");
+    return useContext(SessionContext).session;
+}
 
-    useEffect(() => {
-        let cancelled = false;
-        api.me()
-            .then(() => { if (!cancelled) setState("authed"); })
-            .catch(() => { if (!cancelled) setState("anon"); });
-        return () => { cancelled = true; };
-    }, []);
-
-    return state;
+/** Setters for the moments the session actually changes: login success, logout. */
+export function useSessionActions() {
+    const { markAuthed, markAnon } = useContext(SessionContext);
+    return { markAuthed, markAnon };
 }

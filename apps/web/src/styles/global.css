@@ -13,6 +13,19 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* ---- Loading screen (route guards, initial fetches) ---- */
+
+.loading-screen { min-height: 100%; display: grid; place-items: center; }
+.loading-spin {
+  width: 22px;
+  height: 22px;
+  border: 2px solid oklch(0.26 0.035 252 / 0.15);
+  border-top-color: oklch(0.26 0.035 252 / 0.55);
+  border-radius: 50%;
+  animation: loading-rotate 0.7s linear infinite;
+}
+@keyframes loading-rotate { to { transform: rotate(360deg); } }
+
 /* ---- Document pages (privacy policy, future terms) ---- */
 
 .doc-screen { min-height: 100%; padding: 56px 24px; }
