@@ -1,6 +1,6 @@
-import { Body, Controller, Get, Post, Req, Res, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Post, Query, Req, Res, UseGuards } from "@nestjs/common";
 import { Request, Response, CookieOptions } from "express";
-import type { User } from "@supabase/supabase-js";
+import type { EmailOtpType, User } from "@supabase/supabase-js";
 import { AuthService } from "./auth.service";
 import { AuthGuard } from "./auth.guard";
 import { CurrentUser } from "./current-user.decorator";
@@ -55,6 +55,36 @@ export class AuthController {
     logout(@Res({ passthrough: true }) res: Response) {
         res.clearCookie("access_token", COOKIE_OPTIONS);
         return { message: "User logged out." };
+    }
+
+    /**
+     * Landing for confirmation-email links: ?token_hash=...&type=signup. Verified
+     * server-side, cookie set, user redirected straight into the app — session
+     * tokens never appear in a browser URL. Failure lands on /login with a flag
+     * the login page can explain.
+     */
+    @Get("auth/confirm")
+    async confirmEmail(
+        @Query("token_hash") tokenHash: string | undefined,
+        @Query("type") type: string | undefined,
+        @Res() res: Response
+    ) {
+        if (!tokenHash) {
+            return res.redirect("/login?confirm=failed");
+        }
+
+        const otpType: EmailOtpType = type === "email" ? "email" : "signup";
+
+        try {
+            const accessToken = await this.authService.confirmEmail(tokenHash, otpType);
+            res.cookie("access_token", accessToken, {
+                ...COOKIE_OPTIONS,
+                maxAge: 60 * 60 * 1000
+            });
+            return res.redirect("/dashboard");
+        } catch {
+            return res.redirect("/login?confirm=failed");
+        }
     }
 
     @Post("resend-confirmation")

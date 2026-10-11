@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable, Logger } from "@nestjs/common";
+import type { EmailOtpType } from "@supabase/supabase-js";
 import { SupabaseService } from "../supabase/supabase.service";
 
 /**
@@ -27,7 +28,7 @@ export class AuthService {
         const { data, error } = await this.supabase.newAuthClient().auth.signUp({
             email,
             password,
-            options: { emailRedirectTo: `${siteOrigin}/login` } // confirm link returns to the same environment
+            options: { emailRedirectTo: `${siteOrigin}/api/auth/confirm` } // email template appends token_hash; verified server-side
         });
 
         if (error) {
@@ -87,6 +88,30 @@ export class AuthService {
         return accessToken;
     }
 
+    /**
+     * Verifies an email-confirmation token_hash server-side and returns the session
+     * JWT. Replaces Supabase's implicit flow, where tokens landed in the browser URL.
+     */
+    async confirmEmail(tokenHash: string, type: EmailOtpType): Promise<string> {
+        const { data, error } = await this.supabase.newAuthClient().auth.verifyOtp({
+            token_hash: tokenHash,
+            type
+        });
+
+        if (error) {
+            this.logAuthError("confirm-email", error);
+            throw new BadRequestException(error.message);
+        }
+
+        const accessToken = data.session?.access_token;
+
+        if (!accessToken) {
+            throw new BadRequestException("No session returned for confirmation token");
+        }
+
+        return accessToken;
+    }
+
     async resendConfirmation(email: string, siteOrigin: string) {
         if (!email) {
             throw new BadRequestException("Email is required.");
@@ -95,7 +120,7 @@ export class AuthService {
         const { error } = await this.supabase.newAuthClient().auth.resend({
             type: "signup",
             email,
-            options: { emailRedirectTo: `${siteOrigin}/login` }
+            options: { emailRedirectTo: `${siteOrigin}/api/auth/confirm` }
         });
 
         if (error) {

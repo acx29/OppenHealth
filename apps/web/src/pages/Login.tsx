@@ -1,5 +1,5 @@
-import { useState, type FormEvent } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState, type FormEvent } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { api, ApiError } from "../lib/api";
 import { useSessionActions } from "../hooks/useSession";
 import { GoogleG, I } from "../components/icons";
@@ -11,6 +11,8 @@ type Errors = { email?: string; pw?: string };
 export default function Login() {
     const navigate = useNavigate();
     const { markAuthed } = useSessionActions();
+    const [searchParams] = useSearchParams();
+    const confirmFailed = searchParams.get("confirm") === "failed";
     const [email, setEmail] = useState("");
     const [pw, setPw] = useState("");
     const [show, setShow] = useState(false);
@@ -18,6 +20,14 @@ export default function Login() {
     const [errors, setErrors] = useState<Errors>({});
     const [status, setStatus] = useState<Status>("idle");
     const [shake, setShake] = useState(false);
+
+    useEffect(() => {
+        // Confirmation links sent before the server-side flow land here with session
+        // tokens in the URL fragment — wipe them from the bar and history immediately.
+        if (window.location.hash) {
+            window.history.replaceState(null, "", window.location.pathname + window.location.search);
+        }
+    }, []);
 
     const validate = (): Errors => {
         const e: Errors = {};
@@ -66,6 +76,10 @@ export default function Login() {
             <form className="form-inner" onSubmit={submit} noValidate>
                 <h1 className="title">Sign in to your console</h1>
                 <p className="subtitle">Welcome back. Sign in to sync your wearables and pick up where you left off.</p>
+
+                {confirmFailed && (
+                    <div className="err">{I.alert({})} That confirmation link is invalid or has expired. Sign in if your email is already confirmed, or sign up again to get a fresh link.</div>
+                )}
 
                 <div className="sso-row">
                     <button type="button" className="btn btn-ghost"><GoogleG /> Google</button>
